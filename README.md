@@ -1,1 +1,1 @@
-# My_Development_Log
+# 나의 개발일지 서비스
