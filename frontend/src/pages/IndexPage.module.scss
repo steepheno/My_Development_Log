@@ -1,0 +1,97 @@
+@use '@/styles/variables' as *;
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80px 20px 40px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 14px;
+  margin-bottom: 24px;
+  background-color: $color-bg-tertiary;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: $color-text-secondary;
+  letter-spacing: 0.5px;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  color: $color-text-primary;
+}
+
+.description {
+  font-size: 17px;
+  line-height: 1.7;
+  color: $color-text-secondary;
+  margin-bottom: 40px;
+}
+
+.startButton {
+  display: inline-block;
+  padding: 16px 40px;
+  background-color: $color-button-primary;
+  color: $color-text-inverse;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  transition:
+    background-color 0.15s,
+    transform 0.15s;
+
+  &:hover {
+    background-color: $color-button-primary-hover;
+    transform: translateY(-2px);
+  }
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 0 20px 40px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.featureCard {
+  padding: 32px 24px;
+  background-color: $color-bg-secondary;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.featureIcon {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+
+.featureTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: $color-text-primary;
+}
+
+.featureText {
+  font-size: 14px;
+  line-height: 1.6;
+  color: $color-text-secondary;
+}
