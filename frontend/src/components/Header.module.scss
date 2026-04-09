@@ -1,0 +1,44 @@
+@use '@/styles/variables' as *;
+
+.header {
+  border-bottom: 1px solid $color-border;
+  background-color: $color-bg-primary;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.link {
+  font-size: 15px;
+  color: $color-text-secondary;
+  transition: color 0.15s;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+.active {
+  color: $color-accent;
+  font-weight: 600;
+}
