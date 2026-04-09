@@ -1,5 +1,5 @@
 /**
- * 더미 포트폴리오 데이터
+ * 포트폴리오 더미 데이터
  *
  * 앱 초기 진입 시 Zustand 스토어의 기본값으로 주입된다.
  * 사용자는 곧바로 편집/미리보기/제작 단계로 진행할 수 있다.
@@ -14,8 +14,7 @@ import type { Portfolio } from '../types/portfolio';
  * picsum.photos seed 기반 이미지 생성 헬퍼.
  * 같은 seed는 항상 같은 이미지를 반환하므로 캐싱이 안정적이다.
  */
-const img = (seed: string, w = 1200, h = 800) =>
-  `https://picsum.photos/seed/${seed}/${w}/${h}`;
+const img = (seed: string, w = 1200, h = 800) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
 export const mockPortfolio: Portfolio = {
   cover: {
@@ -25,14 +24,7 @@ export const mockPortfolio: Portfolio = {
     periodText: '2025.02 ~ 2026.04',
     coverPhoto: img('devjs-cover', 1200, 1600),
     bio: '데이터에 기반해 사용자 경험을 설계하는 프론트엔드 개발자입니다.',
-    techStack: [
-      'React',
-      'TypeScript',
-      'Next.js',
-      'TanStack Query',
-      'Zustand',
-      'SCSS Modules',
-    ],
+    techStack: ['React', 'TypeScript', 'Next.js', 'TanStack Query', 'Zustand', 'SCSS Modules'],
     githubUrl: 'https://github.com/steepheno',
     blogUrl: 'https://jsundev.vercel.app',
   },
@@ -44,13 +36,7 @@ export const mockPortfolio: Portfolio = {
       role: '프론트엔드 리드',
       endDate: '2025-04-11',
       projectPeriod: '2025.02 ~ 2025.04',
-      techUsed: [
-        'React',
-        'TypeScript',
-        'TanStack Query',
-        'Zustand',
-        'SCSS Modules',
-      ],
+      techUsed: ['React', 'TypeScript', 'TanStack Query', 'Zustand', 'SCSS Modules'],
       description:
         'AI가 교통사고 영상을 분석해 과실 비율을 산출하고 변호사 상담으로 연결해주는 플랫폼. 프론트엔드 리드로서 아키텍처와 핵심 기능을 주도했습니다.',
       achievements: [
@@ -82,18 +68,12 @@ export const mockPortfolio: Portfolio = {
     },
     {
       id: 'project-choice-and-appear',
-      projectName: 'Choice and Appear',
+      projectName: 'Choice & Appear',
       oneLiner: '사업자 등록을 마친 실서비스 온라인 쇼핑몰',
       role: '프론트엔드 개발',
       endDate: '2026-03-13',
       projectPeriod: '2025.11 ~ 2026.03',
-      techUsed: [
-        'React',
-        'TypeScript',
-        'Zustand',
-        'TanStack Query',
-        'SCSS Modules',
-      ],
+      techUsed: ['React', 'TypeScript', 'Zustand', 'TanStack Query', 'SCSS Modules'],
       description:
         'FSD 아키텍처 기반의 온라인 쇼핑몰 서비스. 쿠키 기반 JWT 인증과 axios 인터셉터를 통한 토큰 갱신 플로우를 직접 설계했고, Tiptap 에디터를 활용한 게시판 기능을 구현했습니다.',
       achievements: [
@@ -107,7 +87,7 @@ export const mockPortfolio: Portfolio = {
     },
     {
       id: 'project-portfolio-site',
-      projectName: 'Portfolio Site',
+      projectName: 'Web Portfolio',
       oneLiner: 'FSD 아키텍처 기반 개인 포트폴리오 사이트',
       role: '개인 프로젝트',
       endDate: '2026-03-27',
