@@ -1,3 +1,17 @@
+/**
+ * 루트 레이아웃
+ *
+ * 모든 페이지의 최상위 컨테이너. Header와 Outlet(페이지 내용)을 세로로 쌓는다.
+ *
+ * 페이지 폭은 각 페이지가 스스로 결정한다. RootLayout은 "전체 화면을 차지한다" 외에는
+ * 페이지의 폭에 관여하지 않는다.
+ * 
+ * 이렇게 분리한 이유:
+ * - 홈 페이지: 중앙 정렬된 1200px 박스 (본문형)
+ * - 편집 페이지: 전체 폭 (워크스페이스형)
+ * - 따라서 RootLayout이 폭을 강제하면 안 됨.
+ */
+
 .layout {
   display: flex;
   flex-direction: column;
@@ -6,8 +20,5 @@
 
 .main {
   flex: 1;
-  max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
-  padding: 40px 20px;
 }
