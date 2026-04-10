@@ -135,3 +135,11 @@
   object-fit: cover;
   display: block;
 }
+
+/* 하단 버튼 */
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}

@@ -1,4 +1,5 @@
 import style from './CoverEditor.module.scss';
+import { Button } from '@/components/button/Button';
 import { TagInput } from '@/components/edit/TagInput';
 import { usePortfolioStore } from '@/store/portfolioStore';
 import type { PortfolioCover } from '@/types/portfolio';
@@ -6,6 +7,15 @@ import type { PortfolioCover } from '@/types/portfolio';
 export function CoverEditor() {
   const cover = usePortfolioStore(state => state.cover);
   const updateCover = usePortfolioStore(state => state.updateCover);
+  const projects = usePortfolioStore(state => state.projects);
+  const selectItem = usePortfolioStore(state => state.selectItem);
+
+  // 프로젝트 정보 입력으로 이동
+  const goToProjectsInfo = () => {
+    if (projects.length > 0) {
+      selectItem(projects[0].id);
+    }
+  };
 
   /**
    * input/textarea의 onChange 핸들러를 만드는 헬퍼.
@@ -218,6 +228,17 @@ export function CoverEditor() {
           />
         </div>
       </section>
+
+      {/* 하단 버튼 */}
+      <div className={style.actions}>
+        <Button
+          variant="primary"
+          onClick={goToProjectsInfo}
+          disabled={projects.length === 0}
+        >
+          프로젝트 편집
+        </Button>
+      </div>
     </div>
   );
 }
