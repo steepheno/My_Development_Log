@@ -1,0 +1,60 @@
+@use '@/styles/variables' as *;
+
+.item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 6px;
+  transition: background-color 0.15s;
+
+  &:hover {
+    background-color: $color-bg-tertiary;
+  }
+}
+
+.itemActive {
+  background-color: $color-bg-tertiary;
+
+  .labelButton {
+    color: $color-button-primary;
+    font-weight: 600;
+  }
+}
+
+.labelButton {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-text-tertiary;
+  text-align: left;
+  cursor: pointer;
+
+  // 줄임 표시
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deleteButton {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  margin-right: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  color: $color-text-tertiary;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
