@@ -1,0 +1,37 @@
+@use '@/styles/variables' as *;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px dashed $color-border-strong;
+  border-radius: 6px;
+  background-color: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: $color-text-secondary;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background-color 0.15s;
+
+  &:hover {
+    border-color: $color-button-primary;
+    color: $color-button-primary;
+    background-color: $color-bg-secondary;
+  }
+}
+
+.plus {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.text {
+  line-height: 1;
+}

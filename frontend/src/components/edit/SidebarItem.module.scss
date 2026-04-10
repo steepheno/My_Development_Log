@@ -1,0 +1,29 @@
+@use '@/styles/variables' as *;
+
+.item {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-text-tertiary;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s;
+
+  &:hover {
+    background-color: $color-bg-tertiary;
+  }
+}
+
+.itemActive {
+  background-color: $color-bg-tertiary;
+  color: $color-button-primary;
+  font-weight: 600;
+
+  &:hover {
+    background-color: $color-bg-tertiary;
+  }
+}

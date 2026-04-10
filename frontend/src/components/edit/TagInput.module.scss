@@ -1,0 +1,83 @@
+@use '@/styles/variables' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid $color-border;
+  border-radius: 6px;
+  background-color: $color-bg-primary;
+  font-size: 14px;
+  color: $color-text-primary;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+
+  &:hover {
+    border-color: $color-border-strong;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-button-primary;
+    box-shadow: 0 0 0 3px rgba(232, 90, 93, 0.12);
+  }
+
+  &::placeholder {
+    color: $color-text-tertiary;
+  }
+}
+
+.tagList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tagItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 6px 6px 12px;
+  background-color: $color-bg-tertiary;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: $color-text-primary;
+}
+
+.tagLabel {
+  line-height: 1;
+}
+
+.removeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: $color-text-secondary;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+
+  &:hover {
+    background-color: $color-accent;
+    color: $color-text-inverse;
+  }
+}
