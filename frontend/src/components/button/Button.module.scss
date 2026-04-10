@@ -1,0 +1,51 @@
+@use '@/styles/variables' as *;
+
+/* ===== 공통 베이스 ===== */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;  // <button>과 <a> 사이의 line-height 계산 차이 제거
+  border-radius: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+  font-family: inherit;
+}
+
+/* ===== Primary ===== */
+.primary {
+  background-color: $color-button-primary;
+  color: $color-text-inverse;
+
+  &:hover:not(.disabled) {
+    background-color: $color-button-primary-hover;
+  }
+}
+
+/* ===== Secondary ===== */
+.secondary {
+  background-color: $color-bg-secondary;
+  color: $color-text-secondary;
+  font-weight: 500;
+  border-color: $color-border;
+
+  &:hover:not(.disabled) {
+    background-color: $color-bg-tertiary;
+    color: $color-text-primary;
+  }
+}
+
+.button:disabled,
+.button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

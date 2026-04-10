@@ -1,5 +1,5 @@
 import style from './IndexPage.module.scss';
-import { Link } from 'react-router-dom';
+import { LinkButton } from '@/components/button/LinkButton';
 
 export function IndexPage() {
   return (
@@ -15,12 +15,12 @@ export function IndexPage() {
           <br />
           나만의 개발일지 포토북으로 만들어 드립니다.
         </p>
-        <Link
+        <LinkButton
+          variant="primary"
           to="/edit"
-          className={style.startButton}
         >
           시작하기
-        </Link>
+        </LinkButton>
       </section>
 
       <section className={style.features}>
