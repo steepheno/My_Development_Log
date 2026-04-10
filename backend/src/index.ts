@@ -28,6 +28,29 @@ app.get('/health', (req: Request, res: Response) => {
 // API 라우트
 app.use('/api/debug', debugRouter);
 
+/* 에러 핸들링 */
+// 404 핸들러 - 정의되지 않은 라우트로 요청이 왔을 때 catch
+// Express에서는 모든 라우트 정의 후에 와야 함
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    error: 'Route not found',
+    path: req.path,
+  });
+});
+
+// 글로벌 에러 핸들러 - 라우트에서 throw한 에러를 잡음
+// 4개 파라미터(err, req, res, next)가 있어야 Express가 에러 핸들러로 인식함 (파라미터 3개 -> 일반 핸들러)
+import type { NextFunction } from 'express';
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({
+    success: false,
+    error: 'Internal server error',
+    message: err.message,
+  });
+});
+
 /* 서버 시작 */
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
