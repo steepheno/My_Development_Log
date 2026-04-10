@@ -1,6 +1,9 @@
-import type { PortfolioCover, PortfolioProject } from './portfolio.js';
-import type { CoverTemplateParams, ContentPageRequest } from './sweetbook.js';
-import { DIARY_B_TEMPLATES } from '../types/sweetbook';
+import type { PortfolioCover, PortfolioProject } from '../types/portfolio.js';
+import {
+  DIARY_B_TEMPLATES,
+  type CoverTemplateParams,
+  type ContentPageRequest,
+} from '../types/sweetbookTemplates.js';
 
 // ========== 상수 ========== //
 
@@ -9,7 +12,6 @@ const COVER_PAGE_TEXT_LIMIT = 400;
 
 /* 내지b의 diaryText 최대 글자 수 */
 const BODY_PAGE_TEXT_LIMIT = 1500;
-
 
 // ========== 헬퍼 ========== //
 function formatDateShort(isoDate: string): string {
@@ -66,7 +68,6 @@ function projectToLongText(project: PortfolioProject): string {
   return lines.join('\n');
 }
 
-
 // ========== 매퍼 ========== //
 export function toCoverTemplateParams(cover: PortfolioCover): CoverTemplateParams {
   return {
@@ -77,7 +78,6 @@ export function toCoverTemplateParams(cover: PortfolioCover): CoverTemplateParam
     coverPhoto: cover.coverPhoto,
   };
 }
-
 
 /* Content 매퍼 — 프로젝트 하나를 여러 페이지 요청으로 변환 */
 

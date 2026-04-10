@@ -1,13 +1,14 @@
-import type { CreateOrderRequest } from '../types/orderRequest.js';
 import { Router, Request, Response } from 'express';
 import { sweetbook } from '../services/sweetbookClient.js';
+import type { CreateOrderRequest } from '../types/orderRequest.js';
+import { toCoverTemplateParams } from '../utils/portfolioMapper.js';
+import { BOOK_COVER_TEMPLATE_UID } from '../types/sweetbookTemplates.js';
 
 const router = Router();
 
 /**
  * POST /api/orders
  */
-
 router.post('/', async (req: Request, res: Response) => {
   try {
     const { portfolio, shipping } = req.body as CreateOrderRequest;
@@ -35,17 +36,25 @@ router.post('/', async (req: Request, res: Response) => {
     }
     console.log(`[orders] Book created: ${bookUid}`);
 
+    /* ===== 2단계: 표지 생성 (covers.create) ===== */
+    console.log('[orders] Creating cover...');
+    const coverParams = toCoverTemplateParams(portfolio.cover);
+    await sweetbook.covers.create(bookUid, BOOK_COVER_TEMPLATE_UID, coverParams);
+    console.log('[orders] Cover created');
+
+    // TODO 5단계: contents.insert × N
+    // TODO 6단계: books.finalize, orders.create
 
     // 임시 응답 — 현재는 bookUid만 반환 (6단계에서 orderUid로 교체 예정)
     return res.json({
       success: true,
       data: {
         bookUid,
-        message: '[3단계] 책 생성까지 완료. 이후 단계는 구현 예정.',
+        message: '[4단계] 책 생성 + 표지까지 완료.',
       },
     });
   } catch (error: any) {
-    console.error('[orders] Failed:', error);  // 어느 라우터에서 나온 에러인지 확인하기 위해 [orders] 작성
+    console.error('[orders] Failed:', error);
     return res.status(500).json({
       success: false,
       error: error.message,

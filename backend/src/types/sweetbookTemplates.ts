@@ -1,3 +1,13 @@
+/**
+ * 책 표지 템플릿 UID (알림장B 테마, A5 소프트커버)
+ *
+ * 내지는 일기장B 테마를 쓰지만, 커버는 알림장B 테마를 사용
+ * 프론트엔드의 placeholder 스키마와 완벽히 일치하는 표지 템플릿이 알림장B에 있어 선택
+ * 플레이스홀더 키: childName, schoolName, volumeLabel, periodText, coverPhoto
+ */
+
+export const BOOK_COVER_TEMPLATE_UID = 'idbMArRHrKTo';
+
 // ========== 1. Books ==========
 /* POST /api/books — 책 생성 요청 */
 export interface CreateBookRequest {
