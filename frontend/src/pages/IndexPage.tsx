@@ -13,7 +13,7 @@ export function IndexPage() {
         <p className={style.description}>
           프로젝트 스크린샷과 소스코드 캡처 이미지를 업로드하면,
           <br />
-          나만의 개발일지 포토북으로 만들어 드립니다.
+          <strong style={{ color: '#FF5051' }}>나만의 개발일지 포토북</strong>으로 만들어 드립니다.
         </p>
         <LinkButton
           variant="primary"
