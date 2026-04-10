@@ -3,6 +3,7 @@ import { sweetbook } from '../services/sweetbookClient.js';
 import type { CreateOrderRequest } from '../types/orderRequest.js';
 import { toCoverTemplateParams } from '../utils/portfolioMapper.js';
 import { BOOK_COVER_TEMPLATE_UID } from '../types/sweetbookTemplates.js';
+import { toCoverTemplateParams, projectsToContentPages } from '../utils/portfolioMapper.js';
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
 
-    /* ===== 1단계: 책 생성 (books.create) ===== */
+    /* ===== 1. 책 생성 (books.create) ===== */
     console.log('[orders] Creating book...');
     const book = await sweetbook.books.create({
       bookSpecUid: 'PHOTOBOOK_A5_SC',
@@ -36,13 +37,36 @@ router.post('/', async (req: Request, res: Response) => {
     }
     console.log(`[orders] Book created: ${bookUid}`);
 
-    /* ===== 2단계: 표지 생성 (covers.create) ===== */
+
+    /* ===== 2. 표지 생성 (covers.create) ===== */
     console.log('[orders] Creating cover...');
     const coverParams = toCoverTemplateParams(portfolio.cover);
     await sweetbook.covers.create(bookUid, BOOK_COVER_TEMPLATE_UID, coverParams);
     console.log('[orders] Cover created');
 
-    // TODO 5단계: contents.insert × N
+    /* ===== 3. 내지 생성 (contents.insert × n) ===== */
+    const contentPages = projectsToContentPages(portfolio.projects);
+    console.log(`[orders] Generated ${contentPages.length} content pages from ${portfolio.projects.length} projects`);
+
+    // 첫 페이지만 상세 로그로 구조 확인 (디버깅용, 나중에 제거 가능)
+    if (contentPages.length > 0) {
+      console.log('[orders] First page preview:', JSON.stringify(contentPages[0], null, 2));
+    }
+
+    // SDK 호출은 직렬로 (병렬은 rate limit 이슈 가능, 과제 규모엔 직렬이 안전)
+    for (let i = 0; i < contentPages.length; i++) {
+      const page = contentPages[i];
+      console.log(`[orders] Inserting content ${i + 1}/${contentPages.length} (${page.kind})...`);
+      await sweetbook.contents.insert(
+        bookUid,
+        page.templateUid,
+        page.parameters,
+        { breakBefore: 'page' }
+      );
+    }
+    console.log('[orders] All contents inserted');
+
+
     // TODO 6단계: books.finalize, orders.create
 
     // 임시 응답 — 현재는 bookUid만 반환 (6단계에서 orderUid로 교체 예정)
@@ -50,7 +74,8 @@ router.post('/', async (req: Request, res: Response) => {
       success: true,
       data: {
         bookUid,
-        message: '[4단계] 책 생성 + 표지까지 완료.',
+        pageCount: contentPages.length,
+        message: '[5단계] 책 생성 + 표지 + 내지까지 완료. finalize는 6단계 예정.',
       },
     });
   } catch (error: any) {
