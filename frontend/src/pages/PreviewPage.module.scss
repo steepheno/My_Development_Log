@@ -1,0 +1,292 @@
+@use '@/styles/variables' as *;
+
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+/* ===== 헤더 ===== */
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 20px 0 10px 0;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+/* ===== 페이지 수 요약 배너 ===== */
+.summary {
+  background-color: $color-bg-secondary;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  padding: 20px 24px;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.summaryMain {
+  font-size: 16px;
+  color: $color-text-primary;
+  margin-bottom: 4px;
+
+  strong {
+    color: $color-button-primary;
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.summarySub {
+  font-size: 14px;
+  color: $color-text-primary;
+}
+
+/* ===== 섹션 공통 ===== */
+.section {
+  margin-bottom: 48px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: $color-text-primary;
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.count {
+  font-size: 14px;
+  font-weight: 400;
+  color: $color-text-tertiary;
+}
+
+/* ===== 표지 카드 ===== */
+.coverCard {
+  border: 1px solid $color-border;
+  border-radius: 16px;
+  padding: 32px;
+  background-color: $color-bg-primary;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.coverPhotoWrapper {
+  flex-shrink: 0;
+  width: 160px;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: $color-bg-tertiary;
+}
+
+.coverPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.coverInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.coverName {
+  font-size: 24px;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin-bottom: 4px;
+}
+
+.coverJob {
+  font-size: 16px;
+  color: $color-text-secondary;
+  margin-bottom: 16px;
+}
+
+.coverMeta {
+  font-size: 14px;
+  color: $color-text-tertiary;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  color: $color-border-strong;
+}
+
+/* ===== 프로젝틀 리스트 ===== */
+.projectList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.projectCard {
+  border: 1px solid $color-border;
+  border-radius: 16px;
+  padding: 28px;
+  background-color: $color-bg-primary;
+}
+
+.projectHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.projectIndex {
+  font-size: 14px;
+  font-weight: 700;
+  color: $color-button-primary;
+  background-color: $color-bg-secondary;
+  border: 1px solid $color-border;
+  padding: 6px 10px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.projectTitleGroup {
+  flex: 1;
+  min-width: 0;
+}
+
+.projectName {
+  font-size: 20px;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0 0 4px;
+}
+
+.projectPeriod {
+  font-size: 13px;
+  color: $color-text-tertiary;
+  margin: 0;
+}
+
+.screenshotWrapper {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: $color-bg-tertiary;
+  margin-bottom: 16px;
+  max-height: 300px;
+}
+
+.screenshot {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.oneLiner {
+  font-size: 15px;
+  color: $color-text-primary;
+  font-weight: 500;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.tagList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 12px;
+  color: $color-minor;
+  font-weight: 600;
+  background-color: $color-bg-tertiary;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.description {
+  font-size: 14px;
+  color: $color-text-secondary;
+  line-height: 1.7;
+  margin: 0 0 16px;
+  white-space: pre-wrap;
+}
+
+.achievements {
+  background-color: $color-bg-secondary;
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+
+.achievementsTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: $color-text-primary;
+  margin-bottom: 8px;
+}
+
+.achievementsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    font-size: 13px;
+    color: $color-text-secondary;
+    line-height: 1.6;
+    padding-left: 12px;
+    position: relative;
+
+    &::before {
+      content: '·';
+      position: absolute;
+      left: 2px;
+      color: $color-text-tertiary;
+    }
+
+    & + li {
+      margin-top: 4px;
+    }
+  }
+}
+
+/* ===== 빈 상태 ===== */
+.empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: $color-text-tertiary;
+  font-size: 14px;
+  background-color: $color-bg-secondary;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+}
+
+/* ===== 하단 액션 버튼 ===== */
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 48px;
+}

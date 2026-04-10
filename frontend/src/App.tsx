@@ -4,6 +4,7 @@ import { EditPage } from '@/pages/EditPage';
 import { PreviewPage } from '@/pages/PreviewPage';
 import { OrderPage } from '@/pages/OrderPage';
 import { IndexPage } from '@/pages/IndexPage';
+import { CompletePage } from '@/pages/CompletePage';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
       { path: 'edit', element: <EditPage /> },
       { path: 'preview', element: <PreviewPage /> },
       { path: 'order', element: <OrderPage /> },
+      { path: 'complete', element: <CompletePage /> },
     ],
   },
 ]);
