@@ -13,7 +13,7 @@ const COVER_PAGE_TEXT_LIMIT = 400;
 /* 내지b의 diaryText 최대 글자 수 */
 const BODY_PAGE_TEXT_LIMIT = 1500;
 
-// ========== 헬퍼 ========== //
+// ===== 헬퍼 ===== //
 function formatDateShort(isoDate: string): string {
   const d = new Date(isoDate);
   if (Number.isNaN(d.getTime())) {
@@ -68,7 +68,7 @@ function projectToLongText(project: PortfolioProject): string {
   return lines.join('\n');
 }
 
-// ========== 매퍼 ========== //
+// ===== 매퍼 ===== //
 export function toCoverTemplateParams(cover: PortfolioCover): CoverTemplateParams {
   return {
     childName: cover.developerName,
@@ -131,3 +131,16 @@ export function projectToContentPages(project: PortfolioProject): ContentPageReq
 export function projectsToContentPages(projects: PortfolioProject[]): ContentPageRequest[] {
   return projects.flatMap(projectToContentPages);
 }
+
+/* ===== 페이지 수 padding ===== */
+/**
+ * Sweetbook API의 finalize 제약: 페이지 수 50 이상 *
+ * 프로젝트가 적을 때 부족한 페이지 수를 빈 일기 페이지로 채움.
+ *
+ * 설계 의도: 이 책은 "개발 일지"이므로, 완성된 과거 기록(프로젝트 페이지)과
+ * 앞으로 채울 빈 일기 공간이 함께 있도록 의도한 컨셉
+ *
+ * @param pages  매핑된 프로젝트 페이지들
+ * @param minTotal  최소 페이지 수 (기본 50)
+ * @returns 최소 페이지 수가 보장된 페이지 배열
+ */

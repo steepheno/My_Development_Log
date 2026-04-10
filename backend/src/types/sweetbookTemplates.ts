@@ -6,7 +6,7 @@
  * 플레이스홀더 키: childName, schoolName, volumeLabel, periodText, coverPhoto
  */
 
-export const BOOK_COVER_TEMPLATE_UID = 'idbMArRHrKTo';
+export const BOOK_COVER_TEMPLATE_UID = '2pmWxMXzE8Ko';
 
 // ========== 1. Books ==========
 /* POST /api/books — 책 생성 요청 */

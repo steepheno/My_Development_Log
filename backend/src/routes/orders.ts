@@ -1,20 +1,29 @@
 import { Router, Request, Response } from 'express';
 import { sweetbook } from '../services/sweetbookClient.js';
 import type { CreateOrderRequest } from '../types/orderRequest.js';
-import { toCoverTemplateParams } from '../utils/portfolioMapper.js';
-import { BOOK_COVER_TEMPLATE_UID } from '../types/sweetbookTemplates.js';
 import { toCoverTemplateParams, projectsToContentPages } from '../utils/portfolioMapper.js';
+import { BOOK_COVER_TEMPLATE_UID } from '../types/sweetbookTemplates.js';
+import { randomUUID } from 'crypto';
 
 const router = Router();
 
 /**
  * POST /api/orders
+ *
+ * 포트폴리오 데이터 + 배송지를 받아서 책을 만들고 주문까지 처리
+ * 내부적으로 5번의 SDK 호출이 순차 실행된다:
+ *   1. books.create
+ *   2. covers.create
+ *   3. contents.insert × 30 (프로젝트 데이터 기반)
+ *   4. books.finalize
+ *   5. orders.create
  */
+
 router.post('/', async (req: Request, res: Response) => {
   try {
     const { portfolio, shipping } = req.body as CreateOrderRequest;
 
-    // 최소 입력 검증 - 필수 필드가 아예 없으면 400
+    // 최소 입력 검증
     if (!portfolio?.cover || !portfolio?.projects || !shipping) {
       return res.status(400).json({
         success: false,
@@ -30,7 +39,6 @@ router.post('/', async (req: Request, res: Response) => {
       creationType: 'TEST',
     });
 
-    // SDK가 bookUid or uid 둘 중 하나로 반환
     const bookUid = book.bookUid || book.uid;
     if (!bookUid) {
       throw new Error('SDK response missing bookUid');
@@ -44,38 +52,55 @@ router.post('/', async (req: Request, res: Response) => {
     await sweetbook.covers.create(bookUid, BOOK_COVER_TEMPLATE_UID, coverParams);
     console.log('[orders] Cover created');
 
-    /* ===== 3. 내지 생성 (contents.insert × n) ===== */
+
+    /* ===== 3. 내지 생성 (contents.insert × N) ===== */
     const contentPages = projectsToContentPages(portfolio.projects);
     console.log(`[orders] Generated ${contentPages.length} content pages from ${portfolio.projects.length} projects`);
 
-    // 첫 페이지만 상세 로그로 구조 확인 (디버깅용, 나중에 제거 가능)
-    if (contentPages.length > 0) {
-      console.log('[orders] First page preview:', JSON.stringify(contentPages[0], null, 2));
-    }
-
-    // SDK 호출은 직렬로 (병렬은 rate limit 이슈 가능, 과제 규모엔 직렬이 안전)
     for (let i = 0; i < contentPages.length; i++) {
       const page = contentPages[i];
       console.log(`[orders] Inserting content ${i + 1}/${contentPages.length} (${page.kind})...`);
-      await sweetbook.contents.insert(
-        bookUid,
-        page.templateUid,
-        page.parameters,
-        { breakBefore: 'page' }
-      );
+      await sweetbook.contents.insert(bookUid, page.templateUid, page.parameters);
     }
     console.log('[orders] All contents inserted');
 
 
-    // TODO 6단계: books.finalize, orders.create
+    /* ===== 4. 책 최종화 (books.finalize) ===== */
+    console.log('[orders] Finalizing book...');
+    const finalizeResult = await sweetbook.books.finalize(bookUid);
+    console.log('[orders] Book finalized:', finalizeResult);
 
-    // 임시 응답 — 현재는 bookUid만 반환 (6단계에서 orderUid로 교체 예정)
+
+    /* ===== 5. 주문 생성 (orders.create) ===== */
+    console.log('[orders] Creating order...');
+
+    // 프론트의 ShippingInfo → SDK shipping 형식 매핑
+    const sdkShipping = {
+      recipientName: shipping.recipientName,
+      recipientPhone: shipping.recipientPhone,
+      postalCode: shipping.postalCode,
+      address1: shipping.address1,
+      address2: shipping.address2,
+      shippingMemo: shipping.memo,
+    };
+
+    // externalRef: BFF 측 식별자. 디버깅 및 추적용
+    const externalRef = `dev-diary-${Date.now()}-${randomUUID().slice(0, 8)}`;
+
+    const order = await sweetbook.orders.create({
+      items: [{ bookUid, quantity: 1 }],
+      shipping: sdkShipping,
+      externalRef,
+    });
+    console.log(`[orders] Order created: ${order.orderUid}`);
+
+    /* ===== 응답 ===== */
     return res.json({
       success: true,
       data: {
+        orderUid: order.orderUid,
         bookUid,
-        pageCount: contentPages.length,
-        message: '[5단계] 책 생성 + 표지 + 내지까지 완료. finalize는 6단계 예정.',
+        externalRef,
       },
     });
   } catch (error: any) {
