@@ -135,26 +135,15 @@
   display: block;
 }
 
-.dangerSection {
-  padding-top: 24px;
-  border-top: 1px solid $color-border;
+/* ===== 하단 미리보기 버튼 ===== */
+.dangerZone {
+  color: $color-accent;
 }
 
-.deleteButton {
-  padding: 10px 16px;
-  border: 1px solid $color-border;
-  border-radius: 6px;
-  background-color: $color-bg-primary;
-  font-size: 13px;
-  font-weight: 500;
-  color: $color-accent;
-  cursor: pointer;
-  transition:
-    background-color 0.15s,
-    border-color 0.15s;
-
-  &:hover {
-    background-color: $color-bg-tertiary;
-    border-color: $color-accent;
-  }
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 10px;
 }

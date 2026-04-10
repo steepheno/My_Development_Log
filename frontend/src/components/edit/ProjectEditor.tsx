@@ -3,6 +3,8 @@ import { AchievementList } from '@/components/edit/AchievementList';
 import { usePortfolioStore } from '@/store/portfolioStore';
 import type { PortfolioProject } from '@/types/portfolio';
 import { TagInput } from '@/components/edit/TagInput';
+import { LinkButton } from '@/components/button/LinkButton';
+import { Button } from '@/components/button/Button';
 
 interface ProjectEditorProps {
   project: PortfolioProject;
@@ -256,16 +258,22 @@ export function ProjectEditor({ project }: ProjectEditorProps) {
         </div>
       </section>
 
-      {/* --- 삭제 --- */}
-      <section className={style.dangerSection}>
-        <button
-          type="button"
-          className={style.deleteButton}
+      {/* --- 하단 버튼 --- */}
+      <div className={style.actions}>
+        <Button
+          variant="secondary"
           onClick={handleDelete}
+          className={style.dangerZone}
         >
           프로젝트 삭제
-        </button>
-      </section>
+        </Button>
+        <LinkButton
+          variant="primary"
+          to="/preview"
+        >
+          미리보기
+        </LinkButton>
+      </div>
     </div>
   );
 }
