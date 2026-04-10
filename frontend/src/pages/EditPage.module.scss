@@ -8,16 +8,18 @@
 }
 
 .sidebar {
-  flex: 0 0 240px;
+  flex: 0 0 280px;
   background-color: $color-bg-primary;
   border-right: 1px solid $color-border;
   overflow-y: auto;
+  position: sticky;
+  top: 62px;  // 헤더 높이(텍스트 높이 30 + 상하 padding 16 * 2)
+  height: calc(100vh - 62px);
 }
 
 .content {
   flex: 1 1 auto;
   padding: 32px 40px;
-  overflow-y: auto;
 }
 
 .placeholder {

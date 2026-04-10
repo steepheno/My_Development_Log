@@ -1,6 +1,6 @@
 import style from './EditPage.module.scss';
 import { CoverEditor } from '@/components/edit/CoverEditor';
-import { EditSidebar } from '@/components/edit/EditSidebar';
+import { EditSidebar } from '@/components/edit/sidebar/EditSidebar';
 import { usePortfolioStore, useSelectedProject } from '@/store/portfolioStore';
 import { ProjectEditor } from '@/components/edit/ProjectEditor';
 
