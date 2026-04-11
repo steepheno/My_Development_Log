@@ -1,39 +1,29 @@
 import style from './OrderPage.module.scss';
-import { validateShipping, type FormErrors } from '@/components/order/validateShipping';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { usePortfolioStore } from '../store/portfolioStore';
-import { defaultShipping, type ShippingInfo } from '../mocks/defaultShipping';
-import { ShippingForm } from '../components/order/ShippingForm';
-import { Button } from '../components/button/Button';
-import { LinkButton } from '../components/button/LinkButton';
+
+import { createOrder } from '@/api/orders';
+import { usePortfolioStore } from '@/store/portfolioStore';
+
+import { defaultShipping, type ShippingInfo } from '@/mocks/defaultShipping';
+import { ShippingForm } from '@/components/order/ShippingForm';
+import { validateShipping, type FormErrors } from '@/components/order/validateShipping';
+import { Button } from '@/components/button/Button';
+import { LinkButton } from '@/components/button/LinkButton';
 
 type OrderViewState = 'form' | 'submitting' | 'error';
 
 // 주문 성공 시 주문 완료 페이지로 넘길 데이터
 export interface OrderResult {
   orderUid: string;
-  totalAmount: number;
   recipientName: string;
   address1: string;
   address2: string;
 }
 
-// ===== Mock API 호출 =====
-async function submitOrderMock(shipping: ShippingInfo): Promise<OrderResult> {
-  await new Promise(resolve => setTimeout(resolve, 2000));
-
-  return {
-    orderUid: `or_${Math.random().toString(36).slice(2, 14)}`,
-    totalAmount: 63400,
-    recipientName: shipping.recipientName,
-    address1: shipping.address1,
-    address2: shipping.address2,
-  };
-}
-
 export function OrderPage() {
   const navigate = useNavigate();
+  const cover = usePortfolioStore(s => s.cover);
   const projects = usePortfolioStore(s => s.projects);
 
   const [viewState, setViewState] = useState<OrderViewState>('form');
@@ -86,13 +76,26 @@ export function OrderPage() {
     setApiError('');
 
     try {
-      const result = await submitOrderMock(shipping);
-      navigate('/complete', { state: result, replace: true });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : '알 수 없는 오류가 발생했어요.';
-      setApiError(message);
-      setViewState('error');
-    }
+    // BFF 호출 — 책 생성부터 주문까지 한 번에 처리 (약 30~35초 소요)
+    const { orderUid } = await createOrder({
+      portfolio: { cover, projects },
+      shipping,
+    });
+
+    // 완료 페이지로 넘길 데이터 (BFF가 알려준 orderUid + 폼에서 입력한 shipping 데이터)
+    const result: OrderResult = {
+      orderUid,
+      recipientName: shipping.recipientName,
+      address1: shipping.address1,
+      address2: shipping.address2,
+    };
+
+    navigate('/complete', { state: result, replace: true });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : '알 수 없는 오류가 발생했어요.';
+    setApiError(message);
+    setViewState('error');
+  }
   };
 
   /* ===== 재시도 핸들러 ===== */
