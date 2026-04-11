@@ -7,7 +7,6 @@ import toast from 'react-hot-toast';
 
 export const notify = {
   /* ===== 입력 검증 ===== */
-
   // 에러를 요약한 toast로 안내
   validationFailed(errorCount: number) {
     toast.error(`입력하지 않은 항목이 ${errorCount}개 있어요.`);
@@ -15,7 +14,6 @@ export const notify = {
 
 
   /* ===== BFF 성공 ===== */
-
   // 주문 생성
   orderCreated() {
     toast.success('주문이 완료됐어요!');
@@ -23,7 +21,6 @@ export const notify = {
 
 
   /* ===== BFF 에러 ===== */
-
   // 주문 생성 실패
   orderFailed(error: unknown) {
     const message =
@@ -31,5 +28,11 @@ export const notify = {
         ? error.message
         : '주문 처리 중 문제가 발생했어요.';
     toast.error(message);
+  },
+
+
+  /* ===== 편집 ===== */
+  projectReordered() {
+    toast.success('프로젝트 순서가 변경되었어요.', { duration: 1500 });
   },
 };
