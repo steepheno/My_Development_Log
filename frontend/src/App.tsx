@@ -5,6 +5,7 @@ import { PreviewPage } from '@/pages/PreviewPage';
 import { OrderPage } from '@/pages/OrderPage';
 import { IndexPage } from '@/pages/IndexPage';
 import { CompletePage } from '@/pages/CompletePage';
+import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter([
   {
@@ -21,5 +22,25 @@ const router = createBrowserRouter([
 ]);
 
 export function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            fontSize: '14px',
+            maxWidth: '400px',
+          },
+          success: {
+            duration: 2500,
+          },
+          error: {
+            duration: 4000,
+          },
+        }}
+      />
+    </>
+  );
 }

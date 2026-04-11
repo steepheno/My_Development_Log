@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { createOrder } from '@/api/orders';
 import { usePortfolioStore } from '@/store/portfolioStore';
+import { notify } from '@/lib/notify';
 
 import { defaultShipping, type ShippingInfo } from '@/mocks/defaultShipping';
 import { ShippingForm } from '@/components/order/ShippingForm';
@@ -11,7 +12,7 @@ import { validateShipping, type FormErrors } from '@/components/order/validateSh
 import { Button } from '@/components/button/Button';
 import { LinkButton } from '@/components/button/LinkButton';
 
-type OrderViewState = 'form' | 'submitting' | 'error';
+type OrderViewState = 'form' | 'submitting';
 
 // 주문 성공 시 주문 완료 페이지로 넘길 데이터
 export interface OrderResult {
@@ -29,7 +30,6 @@ export function OrderPage() {
   const [viewState, setViewState] = useState<OrderViewState>('form');
   const [shipping, setShipping] = useState<ShippingInfo>(defaultShipping);
   const [errors, setErrors] = useState<FormErrors>({});
-  const [apiError, setApiError] = useState<string>('');
 
   /* ===== 빈 상태 방어 ===== */
   if (projects.length === 0) {
@@ -50,7 +50,7 @@ export function OrderPage() {
     );
   }
 
-  // ===== 폼 입력 핸들러 =====
+  /* ===== 폼 입력 핸들러 ===== */
   const handleShippingChange = (field: keyof ShippingInfo, value: string) => {
     setShipping(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
@@ -66,72 +66,41 @@ export function OrderPage() {
   const handleSubmit = async () => {
     // 1. 폼 검증
     const validationErrors = validateShipping(shipping);
-    if (Object.keys(validationErrors).length > 0) {
+    const errorCount = Object.keys(validationErrors).length;
+
+    // Error 발생 시 toast 안내
+    if (errorCount > 0) {
       setErrors(validationErrors);
+      notify.validationFailed(errorCount);
       return;
     }
 
-    // 2. API 호출
+    // 2. BFF 호출 — 책 생성부터 주문까지 한 번에 처리 (약 30 ~ 40초 소요)
     setViewState('submitting');
-    setApiError('');
 
     try {
-    // BFF 호출 — 책 생성부터 주문까지 한 번에 처리 (약 30~35초 소요)
-    const { orderUid } = await createOrder({
-      portfolio: { cover, projects },
-      shipping,
-    });
+      const { orderUid } = await createOrder({
+        portfolio: { cover, projects },
+        shipping,
+      });
 
-    // 완료 페이지로 넘길 데이터 (BFF가 알려준 orderUid + 폼에서 입력한 shipping 데이터)
-    const result: OrderResult = {
-      orderUid,
-      recipientName: shipping.recipientName,
-      address1: shipping.address1,
-      address2: shipping.address2,
-    };
+      // 완료 페이지로 넘길 데이터
+      const result: OrderResult = {
+        orderUid,
+        recipientName: shipping.recipientName,
+        address1: shipping.address1,
+        address2: shipping.address2,
+      };
 
-    navigate('/complete', { state: result, replace: true });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : '알 수 없는 오류가 발생했어요.';
-    setApiError(message);
-    setViewState('error');
-  }
+      notify.orderCreated();
+      navigate('/complete', { state: result, replace: true });
+    } catch (err) {
+      notify.orderFailed(err);
+      setViewState('form');  // 에러 발생 시 폼 입력 상태로 복원
+    }
   };
 
-  /* ===== 재시도 핸들러 ===== */
-  const handleRetry = () => {
-    setViewState('form');
-    setApiError('');
-  };
-
-  /* ===== 렌더링: 에러 화면 ===== */
-  if (viewState === 'error') {
-    return (
-      <div className={style.page}>
-        <div className={style.errorBox}>
-          <div className={style.errorIcon}>!</div>
-          <h1 className={style.errorTitle}>주문 처리 중 오류가 발생했어요</h1>
-          <p className={style.errorDescription}>{apiError}</p>
-          <div className={style.errorActions}>
-            <Button
-              variant="primary"
-              onClick={handleRetry}
-            >
-              다시 시도
-            </Button>
-            <LinkButton
-              variant="secondary"
-              to="/preview"
-            >
-              미리보기로 돌아가기
-            </LinkButton>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  /* ===== 렌더링: 폼 / 제출 중 화면 ===== */
+  /* ===== 렌더링 ===== */
   const isSubmitting = viewState === 'submitting';
 
   return (

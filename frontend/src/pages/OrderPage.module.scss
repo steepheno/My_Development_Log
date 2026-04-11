@@ -6,6 +6,7 @@
   padding-bottom: 80px;
 }
 
+
 /* ===== 페이지 헤더 ===== */
 .header {
   text-align: center;
@@ -25,6 +26,7 @@
   margin: 0;
 }
 
+
 /* ===== 액션 버튼 ===== */
 .actions {
   display: flex;
@@ -32,6 +34,7 @@
   align-items: center;
   gap: 30px;
 }
+
 
 /* ===== 빈 상태 ===== */
 .empty {
@@ -72,47 +75,4 @@
   &:hover {
     background-color: $color-button-primary-hover;
   }
-}
-
-/* ===== 에러 화면 ===== */
-.errorBox {
-  text-align: center;
-  background-color: $color-bg-primary;
-  border: 1px solid $color-border;
-  border-radius: 16px;
-  padding: 48px 32px;
-}
-
-.errorIcon {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 20px;
-  background-color: $color-accent;
-  color: $color-text-inverse;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  font-weight: 700;
-}
-
-.errorTitle {
-  font-size: 22px;
-  font-weight: 700;
-  color: $color-text-primary;
-  margin: 0 0 8px;
-}
-
-.errorDescription {
-  font-size: 14px;
-  color: $color-text-secondary;
-  margin: 0 0 32px;
-  line-height: 1.6;
-}
-
-.errorActions {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
 }
