@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 
 import debugRouter from './routes/debug.js';
-import ordersRouter from './routes/orders.js';
+import checkoutRouter from './routes/checkout.js';
 
 // Express 앱 인스턴스 생성
 const app = express();
@@ -31,7 +31,7 @@ app.get('/health', (req: Request, res: Response) => {
 
 // API 라우트
 app.use('/api/debug', debugRouter);
-app.use('/api/orders', ordersRouter);
+app.use('/api/orders', checkoutRouter);
 
 /* 에러 핸들링 */
 // 404 핸들러 - 정의되지 않은 라우트로 요청이 왔을 때 catch
