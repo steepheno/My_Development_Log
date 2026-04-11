@@ -1,6 +1,6 @@
 import style from './CompletePage.module.scss';
-import { useLocation, Navigate } from 'react-router-dom';
 import type { OrderResult } from './OrderPage';
+import { useLocation, Navigate } from 'react-router-dom';
 import { LinkButton } from '@/components/button/LinkButton';
 
 /**
@@ -35,10 +35,6 @@ export function CompletePage() {
           <div className={style.detailRow}>
             <span className={style.detailLabel}>주문 번호</span>
             <span className={style.detailValueMono}>{orderResult.orderUid}</span>
-          </div>
-          <div className={style.detailRow}>
-            <span className={style.detailLabel}>결제 금액</span>
-            <span className={style.detailValue}>{orderResult.totalAmount.toLocaleString()}원</span>
           </div>
           <div className={style.detailRow}>
             <span className={style.detailLabel}>수령인</span>
