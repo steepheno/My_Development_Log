@@ -9,9 +9,21 @@
 
   &:hover {
     background-color: $color-bg-tertiary;
+
+    // 부모 hover 시 Actions가 나타남
+    .actionsOnHover {
+      opacity: 1;
+    }
+
+    // 부모 hover 시 label 색상도 변화
+    // x 버튼이나 정렬 버튼으로 커서를 옮겨도 hover 색상 유지
+    .labelButton {
+      color: $color-accent;
+    }
   }
 }
 
+// Active 상태는 hover보다 우선함
 .itemActive {
   background-color: $color-bg-tertiary;
 
@@ -33,12 +45,18 @@
   text-align: left;
   cursor: pointer;
 
-  // 줄임 표시
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+// SidebarItemActions에 주입할 hover 반응 클래스
+.actionsOnHover {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+// sortable = false인 표지 아이템용 (기존 × 버튼)
 .deleteButton {
   flex-shrink: 0;
   width: 28px;

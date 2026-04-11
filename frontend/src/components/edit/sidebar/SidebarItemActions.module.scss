@@ -1,0 +1,50 @@
+@use '@/styles/variables' as *;
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: $color-text-tertiary;
+  cursor: grab;
+  border-radius: 4px;
+  transition: background-color 0.15s;
+
+  &:hover {
+    color: $color-accent;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.deleteButton {
+  width: 24px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  color: $color-text-tertiary;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
