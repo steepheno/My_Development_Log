@@ -5,6 +5,7 @@
 
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { OrderStreamError, isUnrecoverableStreamError } from '@/api/orders';
 
 /* ===== BFF 에러 응답 타입 ===== */
 type BffErrorCode =
@@ -49,7 +50,7 @@ function extractBffError(error: unknown): BffErrorResponse | null {
     return null;
   }
 
-  // 직접 throw한 BFF 응답 객체
+  // 직접 throw한 BFF 에러 객체
   if (isBffErrorResponse(error)) {
     return error;
   }
@@ -72,18 +73,27 @@ export const notify = {
 
   /* ===== BFF 에러 ===== */
   orderFailed(error: unknown) {
-    const bffError = extractBffError(error);
-
-    // BFF 응답이 없으면 → 네트워크 단절 등으로 요청 자체가 실패
-    if (!bffError) {
-      toast.error('서버에 연결할 수 없습니다. 인터넷 연결을 확인해주세요.');
+    // 1. SSE 스트림 중단 — 재시도 불가, 10초 간 Toast UI로 안내 (타 안내보다 5초 긺)
+    if (isUnrecoverableStreamError(error)) {
+      toast.error(error.userMessage, { duration: 10_000 });
       return;
     }
 
-    toast.error(bffError.error);  // BFF가 응답한 한국어 에러 메시지
+    // 2. 그 외 OrderStreamError (서버가 보낸 명시적 비즈니스 에러)
+    if (error instanceof OrderStreamError) {
+      toast.error(error.userMessage);
+      return;
+    }
 
-    // 충전금 부족은 추가 안내가 필요할 수도 있으니 별도 처리 여지
-    // (지금은 BFF 메시지로 충분하면 그대로 두기)
+    // 3. BFF HTTP 에러 응답
+    const bffError = extractBffError(error);
+    if (bffError) {
+      toast.error(bffError.error); // BFF가 응답한 한국어 에러 메시지
+      return;
+    }
+
+    // 4. BFF 응답도 없을 때 (진짜 네트워크 단절 등으로 요청 실패)
+    toast.error('서버에 연결할 수 없습니다. 인터넷 연결을 확인해주세요.');
   },
 
   /* ===== 편집 ===== */

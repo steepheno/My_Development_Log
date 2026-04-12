@@ -2,7 +2,7 @@ import style from './OrderPage.module.scss';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { createOrderStream, OrderStreamError } from '@/api/orders';
+import { createOrderStream, isUnrecoverableStreamError } from '@/api/orders';
 import { usePortfolioStore } from '@/store/portfolioStore';
 import { notify } from '@/lib/notify';
 
@@ -16,7 +16,7 @@ import { initialChecklistState, reduceChecklist, type ChecklistState } from '@/c
 import { Button } from '@/components/button/Button';
 import { LinkButton } from '@/components/button/LinkButton';
 
-type OrderViewState = 'form' | 'submitting';
+type OrderViewState = 'form' | 'submitting' | 'failed_unrecoverable';
 
 // 주문 성공 시 주문 완료 페이지로 넘길 데이터
 export interface OrderResult {
@@ -103,25 +103,46 @@ export function OrderPage() {
 
       notify.orderCreated();
       navigate('/complete', { state: result, replace: true });
-    } catch (err) {
-      // SSE 워크플로우 에러 vs 일반 네트워크/검증 에러 분기
-      if (err instanceof OrderStreamError) {
-        notify.orderFailed(err); // 백엔드에서 설정한 한국어 에러 메시지 사용
+    } catch (error) {
+      notify.orderFailed(error);
+
+      // 스트림 중단은 재시도 금지 → 전용 뷰로
+      // 그 외는 폼으로 복귀하여 재시도 허용
+      if (isUnrecoverableStreamError(error)) {
+        setViewState('failed_unrecoverable');
       } else {
-        notify.orderFailed(err);
+        setViewState('form');
       }
-      setViewState('form');
     }
   };
 
   /* ===== 렌더링 ===== */
   const isSubmitting = viewState === 'submitting';
+  const isUnrecoverable = viewState === 'failed_unrecoverable';
 
   return (
     <div className={style.page}>
-      {isSubmitting ? (
-        <ProgressChecklist state={checklist} />
-      ) : (
+      {isSubmitting && <ProgressChecklist state={checklist} />}
+
+      {isUnrecoverable && (
+        <div className={style.unrecoverable}>
+          <div className={style.unrecoverableIcon}>⚠️</div>
+          <h2 className={style.unrecoverableTitle}>주문 처리 중 문제가 발생했어요.</h2>
+          <p className={style.unrecoverableDescription}>
+            포토북 제작이 이미 시작됐을 수도 있어요.
+            <br />
+            다시 주문하지 마시고 화면 캡처 후 고객센터로 문의해주세요.
+          </p>
+          <LinkButton
+            variant="secondary"
+            to="/"
+          >
+            홈으로
+          </LinkButton>
+        </div>
+      )}
+
+      {viewState === 'form' && (
         <>
           <header className={style.header}>
             <h1 className={style.title}>주문하기</h1>
