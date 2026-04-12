@@ -21,7 +21,7 @@ export const mockPortfolio: Portfolio = {
     developerName: '유준선',
     jobTitle: 'Frontend Developer',
     volumeLabel: 'Vol.1',
-    periodText: '2025.02 ~ 2026.04',
+    periodText: '2025.02 ~ 현재',
     coverPhoto: img('devjs-cover', 1200, 1600),
   },
   projects: [
