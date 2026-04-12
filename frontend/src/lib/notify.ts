@@ -58,6 +58,21 @@ function extractBffError(error: unknown): BffErrorResponse | null {
   return null;
 }
 
+/**
+ * 카탈로그 데이터 조회 실패 시 공통 에러 메시지
+ *
+ * BFF가 명시적 에러 메시지를 보낸 경우 우선 사용
+ * 그렇지 않으면 도메인 label이 들어간 기본 문구를 렌더링
+ */
+function showCatalogLoadError(label: string, error: unknown) {
+  const bffError = extractBffError(error);
+  if (bffError) {
+    toast.error(bffError.error);
+    return;
+  }
+  toast.error(`${label}를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.`);
+}
+
 export const notify = {
   /* ===== 입력 검증 ===== */
   // 에러를 요약한 toast로 안내
@@ -95,6 +110,17 @@ export const notify = {
     // 4. BFF 응답도 없을 때 (진짜 네트워크 단절 등으로 요청 실패)
     toast.error('서버에 연결할 수 없습니다. 인터넷 연결을 확인해주세요.');
   },
+
+  /* ===== 카탈로그 조회 ===== */
+  // 판형 정보
+  bookSpecsLoadFailed(error: unknown) {
+    showCatalogLoadError('판형 정보', error);
+  },
+
+  // 다음 작업 시 활성화
+// templatesLoadFailed(error: unknown) {
+//   showCatalogLoadError('템플릿 정보', error);
+// },
 
   /* ===== 편집 ===== */
   projectReordered() {
