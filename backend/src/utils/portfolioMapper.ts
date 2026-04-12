@@ -89,7 +89,7 @@ export function projectToContentPages(project: PortfolioProject): ContentPageReq
   const title = project.projectName;
   const pages: ContentPageRequest[] = [];
 
-  // 1. 첫 페이지: 사진 + 짧은 요약 (oneLiner + role)
+  // 1. 첫 페이지: 사진 + 짧은 요약 (내지a_cover)
   const coverDiaryText = [project.oneLiner, '', `Role: ${project.role}`, `Period: ${project.projectPeriod}`]
     .join('\n')
     .slice(0, COVER_PAGE_TEXT_LIMIT);
@@ -106,7 +106,7 @@ export function projectToContentPages(project: PortfolioProject): ContentPageReq
   };
   pages.push(coverPage);
 
-  // 2. 본문 페이지: description + achievements 등을 분할해서 N장
+  // 2. 본문 페이지: description + achievements 등을 분할해서 n장 (내지b)
   const longText = projectToLongText(project);
   const chunks = splitTextByLimit(longText, BODY_PAGE_TEXT_LIMIT);
 
