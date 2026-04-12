@@ -1,4 +1,6 @@
 import type { ShippingInfo } from '../types/shipping.js';
+import type { ProgressCallback } from '../types/progress.js';
+import { noopProgress } from '../types/progress.js';
 import { randomUUID } from 'crypto';
 import { sweetbook } from './sweetbookClient.js';
 import { classifySdkError } from '../errors/classifySdkError.js';
@@ -12,8 +14,13 @@ export interface CreateOrderResult {
  * finalize된 책으로 주문 생성
  */
 
-export async function createOrderForBook(bookUid: string, shipping: ShippingInfo): Promise<CreateOrderResult> {
+export async function createOrderForBook(
+  bookUid: string,
+  shipping: ShippingInfo,
+  onProgress: ProgressCallback = noopProgress
+): Promise<CreateOrderResult> {
   try {
+    onProgress({ step: 'order_create', status: 'start' });
     console.log('[orderService] Creating order...');
 
     // 프론트의 ShippingInfo → SDK shipping 형식 매핑
@@ -35,6 +42,8 @@ export async function createOrderForBook(bookUid: string, shipping: ShippingInfo
       externalRef,
     });
     console.log(`[orderService] Order created: ${order.orderUid}`);
+
+    onProgress({ step: 'order_create', status: 'done', orderUid: order.orderUid });
 
     return {
       orderUid: order.orderUid,
