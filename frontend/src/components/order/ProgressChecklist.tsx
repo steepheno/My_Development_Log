@@ -22,8 +22,8 @@ interface Props {
 export function ProgressChecklist({ state }: Props) {
   return (
     <div className={style.container}>
-      <h2 className={style.title}>주문을 처리하고 있어요</h2>
-      <p className={style.subtitle}>완료될 때까지 페이지를 닫지 말아주세요</p>
+      <h2 className={style.title}>주문을 처리하고 있어요...</h2>
+      <p className={style.subtitle}>완료될 때까지 새로고침 하거나 페이지를 닫지 말아주세요.</p>
 
       <ul className={style.list}>
         {STEPS.map(step => {
