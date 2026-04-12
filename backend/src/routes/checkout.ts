@@ -15,7 +15,7 @@ const router = Router();
  * 주문 생성을 순차 실행한다.
  *
  * ==============================================================================
- * 
+ *
  * 응답이 SSE 스트림이므로, 클라이언트는 fetch + ReadableStream으로 받아야 한다.
  * (EventSource는 GET만 지원해서 사용 불가)
  *
@@ -71,10 +71,12 @@ router.post('/', async (req: Request, res: Response) => {
   // 클라이언트가 도중에 끊었는지 추적 (끊긴 후 write 시도하면 에러)
   const isClosed = () => res.writableEnded || res.destroyed;
 
-  req.on('close', () => {
-    if (!res.writableEnded) {
-      console.log('[checkout] Client disconnected mid-stream');
+  res.on('close', () => {
+    if (res.writableEnded) {
+      return;
     }
+    // 사용자가 창을 닫을 경우 찍히는 로그
+    console.log('[checkout] ⚠️ Client disconnected mid-stream');
   });
 
   /* ===== 3. 워크플로우 실행 ===== */
