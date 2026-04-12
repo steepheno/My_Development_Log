@@ -5,6 +5,7 @@ import { PreviewPage } from '@/pages/PreviewPage';
 import { OrderPage } from '@/pages/OrderPage';
 import { IndexPage } from '@/pages/IndexPage';
 import { CompletePage } from '@/pages/CompletePage';
+import { BookSpecsPage } from '@/pages/BookSpecsPage';
 import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter([
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: 'preview', element: <PreviewPage /> },
       { path: 'order', element: <OrderPage /> },
       { path: 'complete', element: <CompletePage /> },
+      { path: 'book-specs', element: <BookSpecsPage /> },
     ],
   },
 ]);
