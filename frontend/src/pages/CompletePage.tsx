@@ -37,6 +37,10 @@ export function CompletePage() {
             <span className={style.detailValueMono}>{orderResult.orderUid}</span>
           </div>
           <div className={style.detailRow}>
+            <span className={style.detailLabel}>포토북 ID</span>
+            <span className={style.detailValueMono}>{orderResult.bookUid}</span>
+          </div>
+          <div className={style.detailRow}>
             <span className={style.detailLabel}>수령인</span>
             <span className={style.detailValue}>{orderResult.recipientName}</span>
           </div>

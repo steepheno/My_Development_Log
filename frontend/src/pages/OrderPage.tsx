@@ -15,12 +15,14 @@ import { initialChecklistState, reduceChecklist, type ChecklistState } from '@/c
 
 import { Button } from '@/components/button/Button';
 import { LinkButton } from '@/components/button/LinkButton';
+import toast from 'react-hot-toast';
 
 type OrderViewState = 'form' | 'submitting' | 'failed_unrecoverable';
 
 // 주문 성공 시 주문 완료 페이지로 넘길 데이터
 export interface OrderResult {
   orderUid: string;
+  bookUid: string;
   recipientName: string;
   address1: string;
   address2: string;
@@ -35,6 +37,7 @@ export function OrderPage() {
   const [shipping, setShipping] = useState<ShippingInfo>(defaultShipping);
   const [errors, setErrors] = useState<FormErrors>({});
   const [checklist, setChecklist] = useState<ChecklistState>(initialChecklistState);
+  const [bookUid, setBookUid] = useState<string | null>(null);
 
   /* ===== 빈 상태 방어 ===== */
   if (projects.length === 0) {
@@ -86,16 +89,20 @@ export function OrderPage() {
 
     // 3. SSE 스트림 시작
     try {
-      const { orderUid } = await createOrderStream(
+      const { orderUid, bookUid: createdBookUid } = await createOrderStream(
         { portfolio: { cover, projects }, shipping },
         // 진행 이벤트 콜백 — reduceChecklist로 새 상태 계산
         event => {
+          if (event.step === 'book_create' && event.status === 'done') {
+            setBookUid(event.bookUid);
+          }
           setChecklist(prev => reduceChecklist(prev, event));
         }
       );
 
       const result: OrderResult = {
         orderUid,
+        bookUid: createdBookUid,
         recipientName: shipping.recipientName,
         address1: shipping.address1,
         address2: shipping.address2,
@@ -133,8 +140,25 @@ export function OrderPage() {
             <br />
             다시 주문하지 마시고 화면 캡처 후 고객센터로 문의해주세요.
           </p>
+
+          {bookUid && (
+            <div className={style.bookUidBox}>
+              <span className={style.bookUidLabel}>책 아이디: </span>
+              <code className={style.bookUidValue}>{bookUid}</code>
+              <button
+                type="button"
+                className={style.copyButton}
+                onClick={() => {
+                  navigator.clipboard.writeText(bookUid);
+                  toast.success('복사되었습니다.');
+                }}
+              >
+                복사
+              </button>
+            </div>
+          )}
           <LinkButton
-            variant="secondary"
+            variant="primary"
             to="/"
           >
             홈으로
