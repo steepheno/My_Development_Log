@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import debugRouter from './routes/debug.js';
 import checkoutRouter from './routes/checkout.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
 // Express 앱 인스턴스 생성
 const app = express();
@@ -44,17 +45,8 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-// 글로벌 에러 핸들러 - 라우트에서 throw한 에러를 잡음
-// 4개 파라미터(err, req, res, next)가 있어야 Express가 에러 핸들러로 인식함 (파라미터 3개 -> 일반 핸들러)
-import type { NextFunction } from 'express';
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error('Unhandled error:', err);
-  res.status(500).json({
-    success: false,
-    error: 'Internal server error',
-    message: err.message,
-  });
-});
+// 글로벌 에러 핸들러
+app.use(errorHandler);
 
 /* 서버 시작 */
 app.listen(PORT, () => {

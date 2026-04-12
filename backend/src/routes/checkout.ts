@@ -1,7 +1,8 @@
 import type { CreateOrderRequest } from '../types/orderRequest.js';
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { createBookFromPortfolio } from '../services/bookService.js';
 import { createOrderForBook } from '../services/orderService.js';
+import { AppError } from '../errors/AppError.js';
 
 const router = Router();
 
@@ -13,17 +14,32 @@ const router = Router();
  * 주문 생성을 순차 실행한다.
  */
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   console.log('[checkout] ▶ Workflow started');
 
   try {
     const { portfolio, shipping } = req.body as CreateOrderRequest;
 
-    // 최소 입력 검증
-    if (!portfolio?.cover || !portfolio?.projects || !shipping) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid request body: portfolio and shipping are required',
+    /* ===== 입력 검증 ===== */
+    // 어떤 필드가 빠졌는지 구체적으로 알려줌
+    const missingFields: string[] = [];
+    if (!portfolio?.cover) missingFields.push('portfolio.cover');
+    if (!portfolio?.projects) missingFields.push('portfolio.projects');
+    if (!shipping) missingFields.push('shipping');
+    else {
+      if (!shipping.recipientName) missingFields.push('shipping.recipientName');
+      if (!shipping.recipientPhone) missingFields.push('shipping.recipientPhone');
+      if (!shipping.postalCode) missingFields.push('shipping.postalCode');
+      if (!shipping.address1) missingFields.push('shipping.address1');
+    }
+
+    if (missingFields.length > 0) {
+      throw new AppError({
+        code: 'VALIDATION_FAILED',
+        status: 400,
+        userMessage: `필수 입력값이 누락되었어요: ${missingFields.join(', ')}`,
+        message: `Validation failed: missing fields - ${missingFields.join(', ')}`,
+        details: { missingFields },
       });
     }
 
@@ -43,13 +59,8 @@ router.post('/', async (req: Request, res: Response) => {
         externalRef,
       },
     });
-  } catch (error: any) {
-    console.error('[orders] Failed:', error);
-    return res.status(500).json({
-      success: false,
-      error: error.message,
-      details: error.details || null,
-    });
+  } catch (error) {
+    next(error)
   }
 });
 
