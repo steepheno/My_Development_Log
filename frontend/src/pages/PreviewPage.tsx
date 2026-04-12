@@ -2,6 +2,7 @@ import style from './PreviewPage.module.scss';
 import { usePortfolioStore } from '../store/portfolioStore';
 import { projectsToContentPages } from '../utils/portfolioMapper';
 import { LinkButton } from '@/components/button/LinkButton';
+import { ScrollMove } from '@/components/scrollMoveButton/ScrollMove';
 
 export function PreviewPage() {
   const cover = usePortfolioStore(s => s.cover);
@@ -134,6 +135,9 @@ export function PreviewPage() {
           다음단계 →
         </LinkButton>
       </div>
+
+      {/* 스크롤 최상단(최하단) 이동 버튼 */}
+      <ScrollMove />
     </div>
   );
 }

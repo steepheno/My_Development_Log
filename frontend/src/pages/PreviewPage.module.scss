@@ -52,6 +52,31 @@
   color: $color-text-primary;
 }
 
+.scrollToBottom {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-text-primary;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    color: $color-accent;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-button-primary;
+    outline-offset: 2px;
+  }
+}
+
 /* ===== 섹션 공통 ===== */
 .section {
   margin-bottom: 48px;
@@ -120,7 +145,7 @@
 
 .coverMeta {
   font-size: 14px;
-  color: $color-text-tertiary;
+  color: $color-text-primary;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -179,7 +204,7 @@
 
 .projectPeriod {
   font-size: 13px;
-  color: $color-text-tertiary;
+  color: $color-text-primary;
   margin: 0;
 }
 
