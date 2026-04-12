@@ -2,13 +2,17 @@ import style from './OrderPage.module.scss';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { createOrder } from '@/api/orders';
+import { createOrderStream, OrderStreamError } from '@/api/orders';
 import { usePortfolioStore } from '@/store/portfolioStore';
 import { notify } from '@/lib/notify';
 
 import { defaultShipping, type ShippingInfo } from '@/mocks/defaultShipping';
 import { ShippingForm } from '@/components/order/ShippingForm';
 import { validateShipping, type FormErrors } from '@/components/order/validateShipping';
+
+import { ProgressChecklist } from '@/components/order/ProgressChecklist';
+import { initialChecklistState, reduceChecklist, type ChecklistState } from '@/components/order/checklistState';
+
 import { Button } from '@/components/button/Button';
 import { LinkButton } from '@/components/button/LinkButton';
 
@@ -30,6 +34,7 @@ export function OrderPage() {
   const [viewState, setViewState] = useState<OrderViewState>('form');
   const [shipping, setShipping] = useState<ShippingInfo>(defaultShipping);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [checklist, setChecklist] = useState<ChecklistState>(initialChecklistState);
 
   /* ===== 빈 상태 방어 ===== */
   if (projects.length === 0) {
@@ -75,16 +80,20 @@ export function OrderPage() {
       return;
     }
 
-    // 2. BFF 호출 — 책 생성부터 주문까지 한 번에 처리 (약 30 ~ 40초 소요)
+    // 2. 체크리스트 초기화 + 제출 상태 진입
+    setChecklist(initialChecklistState);
     setViewState('submitting');
 
+    // 3. SSE 스트림 시작
     try {
-      const { orderUid } = await createOrder({
-        portfolio: { cover, projects },
-        shipping,
-      });
+      const { orderUid } = await createOrderStream(
+        { portfolio: { cover, projects }, shipping },
+        // 진행 이벤트 콜백 — reduceChecklist로 새 상태 계산
+        event => {
+          setChecklist(prev => reduceChecklist(prev, event));
+        }
+      );
 
-      // 완료 페이지로 넘길 데이터
       const result: OrderResult = {
         orderUid,
         recipientName: shipping.recipientName,
@@ -95,8 +104,13 @@ export function OrderPage() {
       notify.orderCreated();
       navigate('/complete', { state: result, replace: true });
     } catch (err) {
-      notify.orderFailed(err);
-      setViewState('form');  // 에러 발생 시 폼 입력 상태로 복원
+      // SSE 워크플로우 에러 vs 일반 네트워크/검증 에러 분기
+      if (err instanceof OrderStreamError) {
+        notify.orderFailed(err); // 백엔드에서 설정한 한국어 에러 메시지 사용
+      } else {
+        notify.orderFailed(err);
+      }
+      setViewState('form');
     }
   };
 
@@ -105,35 +119,38 @@ export function OrderPage() {
 
   return (
     <div className={style.page}>
-      <header className={style.header}>
-        <h1 className={style.title}>주문하기</h1>
-        <p className={style.subtitle}>배송지를 확인하고 주문을 완료해주세요</p>
-      </header>
+      {isSubmitting ? (
+        <ProgressChecklist state={checklist} />
+      ) : (
+        <>
+          <header className={style.header}>
+            <h1 className={style.title}>주문하기</h1>
+            <p className={style.subtitle}>배송지를 확인하고 주문을 완료해주세요</p>
+          </header>
 
-      <ShippingForm
-        value={shipping}
-        onChange={handleShippingChange}
-        errors={errors}
-        disabled={isSubmitting}
-      />
+          <ShippingForm
+            value={shipping}
+            onChange={handleShippingChange}
+            errors={errors}
+            disabled={false}
+          />
 
-      {/* 액션 버튼 */}
-      <div className={style.actions}>
-        <LinkButton
-          variant="secondary"
-          to="/preview"
-          disabled={isSubmitting}
-        >
-          ← 뒤로가기
-        </LinkButton>
-        <Button
-          variant="primary"
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? '주문 중…' : '주문하기 →'}
-        </Button>
-      </div>
+          <div className={style.actions}>
+            <LinkButton
+              variant="secondary"
+              to="/preview"
+            >
+              ← 뒤로가기
+            </LinkButton>
+            <Button
+              variant="primary"
+              onClick={handleSubmit}
+            >
+              주문하기 →
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
