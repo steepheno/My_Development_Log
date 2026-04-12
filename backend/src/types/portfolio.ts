@@ -2,13 +2,9 @@
 export interface PortfolioCover {
   developerName: string;  // 개발자 이름
   jobTitle: string;       // 직무
-  volumeLabel: string;    // 권 표시
+  volumeLabel: string;    // 버전 표시
   periodText: string;     // 활동 기간
   coverPhoto: string;     // 표지 대표 이미지
-  bio: string;            // 1줄 소개
-  techStack: string[];    // 기술 스택
-  githubUrl: string;      // GitHub URL
-  blogUrl?: string;       // 블로그 or 포트폴리오 사이트
 }
 
 /* 프로젝트: 개발일지 한 편 */
