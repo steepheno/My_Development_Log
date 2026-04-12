@@ -1,6 +1,5 @@
 import style from './CoverEditor.module.scss';
 import { Button } from '@/components/button/Button';
-import { TagInput } from '@/components/edit/TagInput';
 import { usePortfolioStore } from '@/store/portfolioStore';
 import type { PortfolioCover } from '@/types/portfolio';
 
@@ -74,13 +73,13 @@ export function CoverEditor() {
           />
         </div>
 
-        {/* 권 표시 */}
+        {/* 버전 표시 */}
         <div className={style.field}>
           <label
             htmlFor="cover-volumeLabel"
             className={style.label}
           >
-            권 표시
+            버전 표시
           </label>
           <input
             id="cover-volumeLabel"
@@ -113,26 +112,6 @@ export function CoverEditor() {
 
       {/* --- 소개 --- */}
       <section className={style.section}>
-        <h3 className={style.sectionTitle}>소개</h3>
-
-        {/* 1줄 소개 */}
-        <div className={style.field}>
-          <label
-            htmlFor="cover-bio"
-            className={style.label}
-          >
-            1줄 소개
-          </label>
-          <textarea
-            id="cover-bio"
-            className={style.textarea}
-            value={cover.bio}
-            onChange={handleChange('bio')}
-            placeholder="자신을 한 문장으로 소개해보세요"
-            rows={2}
-          />
-        </div>
-
         {/* 표지 이미지 */}
         <div className={style.field}>
           <label
@@ -166,66 +145,6 @@ export function CoverEditor() {
               />
             </div>
           )}
-        </div>
-      </section>
-
-      {/* --- 기술 스택 --- */}
-      <section className={style.section}>
-        <h3 className={style.sectionTitle}>기술 스택</h3>
-
-        <div className={style.field}>
-          <label
-            htmlFor="cover-techStack"
-            className={style.label}
-          >
-            주요 기술
-          </label>
-          <TagInput
-            value={cover.techStack}
-            onChange={next => updateCover({ techStack: next })}
-            placeholder="기술 입력 후 Enter (ex. React)"
-          />
-        </div>
-      </section>
-
-      {/* --- 외부 링크 --- */}
-      <section className={style.section}>
-        <h3 className={style.sectionTitle}>외부 링크</h3>
-
-        {/* GitHub */}
-        <div className={style.field}>
-          <label
-            htmlFor="cover-githubUrl"
-            className={style.label}
-          >
-            GitHub
-          </label>
-          <input
-            id="cover-githubUrl"
-            type="url"
-            className={style.input}
-            value={cover.githubUrl}
-            onChange={handleChange('githubUrl')}
-            placeholder="https://github.com/..."
-          />
-        </div>
-
-        {/* 블로그 */}
-        <div className={style.field}>
-          <label
-            htmlFor="cover-blogUrl"
-            className={style.label}
-          >
-            블로그 (선택)
-          </label>
-          <input
-            id="cover-blogUrl"
-            type="url"
-            className={style.input}
-            value={cover.blogUrl ?? ''}
-            onChange={handleChange('blogUrl')}
-            placeholder="https://..."
-          />
         </div>
       </section>
 

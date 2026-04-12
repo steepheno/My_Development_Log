@@ -23,10 +23,6 @@ export const mockPortfolio: Portfolio = {
     volumeLabel: 'Vol.1',
     periodText: '2025.02 ~ 2026.04',
     coverPhoto: img('devjs-cover', 1200, 1600),
-    bio: '데이터에 기반해 사용자 경험을 설계하는 프론트엔드 개발자입니다.',
-    techStack: ['React', 'TypeScript', 'Next.js', 'TanStack Query', 'Zustand', 'SCSS Modules'],
-    githubUrl: 'https://github.com/steepheno',
-    blogUrl: 'https://jsundev.vercel.app',
   },
   projects: [
     {
