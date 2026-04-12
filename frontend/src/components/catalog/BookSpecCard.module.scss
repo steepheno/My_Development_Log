@@ -1,0 +1,107 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: $color-bg-primary;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  padding: 24px;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: $color-minor;
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 3px rgba(232, 90, 93, 0.12);
+  }
+}
+
+.visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  background: $color-bg-secondary;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.book {
+  fill: $color-bg-primary;
+  stroke: $color-border-strong;
+  stroke-width: 1.5;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.08));
+}
+
+.spine {
+  stroke: $color-border-strong;
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+  opacity: 0.6;
+}
+
+.header {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0 0 4px;
+}
+
+.sizeLabel {
+  font-size: 13px;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.specs {
+  margin: 0 0 16px;
+  padding: 16px 0;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+}
+
+.specRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  gap: 16px;
+}
+
+.specLabel {
+  font-size: 13px;
+  color: $color-text-primary;
+  font-weight: 600;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.specValue {
+  font-size: 13px;
+  color: $color-text-primary;
+  margin: 0;
+  text-align: right;
+  font-weight: 500;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+}
+
+.uid {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-text-primary;
+  padding: 4px 8px;
+  border-radius: 4px;
+}

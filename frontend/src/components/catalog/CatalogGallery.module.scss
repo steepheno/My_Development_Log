@@ -1,0 +1,54 @@
+@use '@/styles/variables.scss' as *;
+
+.gallery {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: $color-text-primary;
+}
+
+.description {
+  font-size: 16px;
+  color: $color-text-primary;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.body {
+  min-height: 200px;
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 16px;
+  color: $color-text-secondary;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gridItem {
+  list-style: none;
+}
