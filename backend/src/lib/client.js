@@ -212,6 +212,25 @@ class BookSpecsClient extends BaseClient {
 }
 
 // ============================================================
+// Templates Client
+// ============================================================
+class TemplatesClient extends BaseClient {
+  async list(params = {}) {
+    const { limit = 50, offset = 0 } = params;
+    const body = await this._get('/templates', { limit, offset });
+
+    // 응답 구조 파악을 위해 객체로 받음
+    return new ResponseParser(body).getDict();
+  }
+
+  async get(templateUid) {
+    this._requireParam(templateUid, 'templateUid');
+    const body = await this._get(`/templates/${templateUid}`);
+    return new ResponseParser(body).getDict();
+  }
+}
+
+// ============================================================
 // Main Client
 // ============================================================
 
@@ -247,7 +266,8 @@ class SweetbookClient {
     this.contents = new ContentsClient(this);
     this.orders = new OrdersClient(this);
     this.credits = new CreditsClient(this);
-    this.bookSpecs = new BookSpecsClient(this);
+    this.bookSpecs = new BookSpecsClient(this);  // 판형
+    this.templates = new TemplatesClient(this);  // 템플릿
   }
 }
 
@@ -259,5 +279,6 @@ module.exports = {
   ContentsClient,
   OrdersClient,
   CreditsClient,
-  BookSpecsClient
+  BookSpecsClient,  // 판형
+  TemplatesClient,  // 템플릿
 };
