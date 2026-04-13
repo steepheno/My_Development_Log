@@ -58,7 +58,7 @@ export function TemplatesPage() {
         title="템플릿 둘러보기"
         description={
           catalog
-            ? `총 ${catalog.totalTemplates}개의 템플릿을 테마별로 살펴볼 수 있어요.`
+            ? `${catalog.regularThemes.length}가지 테마, ${catalog.totalTemplates}개의 템플릿을 살펴볼 수 있어요.`
             : 'Sweetbook이 제공하는 다양한 디자인 템플릿을 살펴보세요.'
         }
         isLoading={isLoading}
