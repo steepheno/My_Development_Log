@@ -18,6 +18,12 @@
     color 0.15s,
     border-color 0.15s;
   font-family: inherit;
+
+  @media (max-width: 768px) {
+    padding: 12px 18px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
 }
 
 /* ===== Primary ===== */
