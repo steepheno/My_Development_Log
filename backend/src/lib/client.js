@@ -194,6 +194,24 @@ class CreditsClient extends BaseClient {
 }
 
 // ============================================================
+// BookSpecs Client <판형 조회 코드 추가>
+// ============================================================
+class BookSpecsClient extends BaseClient {
+  async list() {
+    const body = await this._get('/book-specs');
+
+    // BookSpecs API 응답이 배열 형태
+    return new ResponseParser(body).getList();
+  }
+
+  async get(bookSpecUid) {
+    this._requireParam(bookSpecUid, 'bookSpecUid');
+    const body = await this._get(`/book-specs/${bookSpecUid}`);
+    return new ResponseParser(body).getDict();
+  }
+}
+
+// ============================================================
 // Main Client
 // ============================================================
 
@@ -222,12 +240,14 @@ class SweetbookClient {
       this._baseUrl = 'https://api.sweetbook.com/v1';
     }
 
+    // 클라이언트 등록
     this.books = new BooksClient(this);
     this.photos = new PhotosClient(this);
     this.covers = new CoversClient(this);
     this.contents = new ContentsClient(this);
     this.orders = new OrdersClient(this);
     this.credits = new CreditsClient(this);
+    this.bookSpecs = new BookSpecsClient(this);
   }
 }
 
@@ -239,4 +259,5 @@ module.exports = {
   ContentsClient,
   OrdersClient,
   CreditsClient,
+  BookSpecsClient
 };
