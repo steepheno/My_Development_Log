@@ -1,7 +1,9 @@
 import type { BookSpecCatalogItem } from '@/types/bookSpec';
 import { useEffect, useState } from 'react';
+
 import { fetchBookSpecs } from '@/api/bookSpecs';
 import { notify } from '@/lib/notify';
+
 import { CatalogGallery } from '@/components/catalog/CatalogGallery';
 import { BookSpecCard } from '@/components/catalog/BookSpecCard';
 

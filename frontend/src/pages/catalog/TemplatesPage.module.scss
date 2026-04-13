@@ -1,0 +1,11 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 48px; // 테마 섹션 사이 간격
+}
+
+.divider {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid #e5e7eb; // gray-200
+}
