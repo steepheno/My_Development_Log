@@ -1,6 +1,6 @@
 import style from './PreviewPage.module.scss';
-import { usePortfolioStore } from '../store/portfolioStore';
-import { projectsToContentPages } from '../utils/portfolioMapper';
+import { usePortfolioStore } from '../../store/portfolioStore';
+import { projectsToContentPages } from '../../utils/portfolioMapper';
 import { LinkButton } from '@/components/button/LinkButton';
 import { ScrollMove } from '@/components/scrollMoveButton/ScrollMove';
 
