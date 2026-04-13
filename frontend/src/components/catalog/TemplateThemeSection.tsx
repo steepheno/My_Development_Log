@@ -16,16 +16,15 @@ import { TemplateBookSpecSubGroup } from '@/components/catalog/TemplateBookSpecS
 interface TemplateThemeSectionProps {
   group: TemplateThemeGroup;
   variant?: 'regular' | 'utility';
+  id?: string;
 }
 
-export function TemplateThemeSection({
-  group,
-  variant = 'regular',
-}: TemplateThemeSectionProps) {
+export function TemplateThemeSection({ group, variant = 'regular', id }: TemplateThemeSectionProps) {
   const { theme, totalCount, byBookSpec } = group;
 
   return (
     <section
+      id={id}
       className={`${style.themeSection} ${style[`themeSection--${variant}`]}`}
     >
       <header className={style.header}>
@@ -39,7 +38,7 @@ export function TemplateThemeSection({
       </header>
 
       <div className={style.subGroups}>
-        {byBookSpec.map((sub) => (
+        {byBookSpec.map(sub => (
           <TemplateBookSpecSubGroup
             key={sub.bookSpecUid}
             bookSpecUid={sub.bookSpecUid}

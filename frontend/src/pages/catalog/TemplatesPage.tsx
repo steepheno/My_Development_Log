@@ -8,6 +8,7 @@ import { notify } from '@/lib/notify';
 import { CatalogGallery } from '@/components/catalog/CatalogGallery';
 import { TemplateThemeSection } from '@/components/catalog/TemplateThemeSection';
 import { ScrollMove } from '@/components/scrollMoveButton/ScrollMove';
+import { SectionDotNav } from '@/components/sectionDotNav/SectionDotNav';
 
 /**
  * 템플릿 카탈로그 페이지
@@ -15,6 +16,18 @@ import { ScrollMove } from '@/components/scrollMoveButton/ScrollMove';
  * Sweetbook이 제공하는 포토북 템플릿을 테마별로 그룹핑하여 렌더링.
  * 조회 전용으로, 실제 주문 플로우와 연결되지 않음.
  */
+
+const THEME_ID_MAP: Record<string, string> = {
+  '구글포토북A': 'theme-google-photobook-a',
+  '알림장A': 'theme-notice-a',
+  '일기장A': 'theme-diary-a',
+};
+
+const DOT_NAV_SECTIONS = [
+  { id: 'theme-google-photobook-a', label: '구글포토북A' },
+  { id: 'theme-notice-a', label: '알림장A' },
+  { id: 'theme-diary-a', label: '일기장A' },
+];
 
 export function TemplatesPage() {
   const [catalog, setCatalog] = useState<TemplateCatalog | null>(null);
@@ -70,6 +83,7 @@ export function TemplatesPage() {
               <TemplateThemeSection
                 key={group.theme}
                 group={group}
+                id={THEME_ID_MAP[group.theme]}
               />
             ))}
 
@@ -89,6 +103,7 @@ export function TemplatesPage() {
           </div>
         )}
       />
+      <SectionDotNav sections={DOT_NAV_SECTIONS} />
       <ScrollMove />
     </>
   );
