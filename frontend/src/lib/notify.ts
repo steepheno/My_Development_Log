@@ -80,11 +80,13 @@ export const notify = {
     toast.error(`입력하지 않은 항목이 ${errorCount}개 있어요.`);
   },
 
+
   /* ===== BFF 성공 ===== */
   // 주문 생성
   orderCreated() {
     toast.success('주문이 완료됐어요!');
   },
+
 
   /* ===== BFF 에러 ===== */
   orderFailed(error: unknown) {
@@ -111,16 +113,17 @@ export const notify = {
     toast.error('서버에 연결할 수 없습니다. 인터넷 연결을 확인해주세요.');
   },
 
+  
   /* ===== 카탈로그 조회 ===== */
   // 판형 정보
   bookSpecsLoadFailed(error: unknown) {
     showCatalogLoadError('판형 정보', error);
   },
 
-  // 다음 작업 시 활성화
-// templatesLoadFailed(error: unknown) {
-//   showCatalogLoadError('템플릿 정보', error);
-// },
+  // 템플릿 정보
+  templatesLoadFailed(error: unknown) {
+    showCatalogLoadError('템플릿 정보', error);
+  },
 
   /* ===== 편집 ===== */
   projectReordered() {
