@@ -1,0 +1,58 @@
+@use '@/styles/variables.scss' as *;
+
+.themeSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ===== 테마 헤더 ===== */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid $color-text-primary;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.count {
+  font-size: 13px;
+  color: $color-text-secondary;
+  font-weight: 500;
+}
+
+.utilityDescription {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: $color-text-secondary;
+  line-height: 1.5;
+}
+
+/* ===== 서브 그룹 컨테이너 ===== */
+.subGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ===== Variant: Utility (공용 섹션) ===== */
+.themeSection--utility {
+  .header {
+    border-bottom-width: 1px;
+    border-bottom-color: $color-border-strong;
+  }
+
+  .title {
+    color: $color-text-secondary;
+    font-size: 18px;
+  }
+}
