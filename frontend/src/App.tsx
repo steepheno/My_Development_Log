@@ -1,13 +1,14 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { RootLayout } from '@/components/layout/RootLayout';
-import { EditPage } from '@/pages/EditPage';
-import { PreviewPage } from '@/pages/PreviewPage';
-import { OrderPage } from '@/pages/OrderPage';
-import { IndexPage } from '@/pages/IndexPage';
-import { CompletePage } from '@/pages/CompletePage';
+import { Toaster } from 'react-hot-toast';
+
+import { EditPage } from '@/pages/bookCreate/EditPage';
+import { PreviewPage } from '@/pages/bookCreate/PreviewPage';
+import { OrderPage } from '@/pages/orderCreate/OrderPage';
+import { IndexPage } from '@/pages/indexPage/IndexPage';
+import { CompletePage } from '@/pages/orderCreate/CompletePage';
 import { BookSpecsPage } from '@/pages/catalog/BookSpecsPage';
 import { TemplatesPage } from '@/pages/catalog/TemplatesPage';
-import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter([
   {
