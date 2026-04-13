@@ -41,7 +41,7 @@ export const mockPortfolio: Portfolio = {
         '비디오 업로드 Zustand 상태 관리 및 진행률 UI 구현',
         'AI 챗봇 FastAPI 연동 및 textarea 동적 높이 조절 구현',
       ],
-      screenshotUrl: img('dorolaw-ai', 1200, 800),
+      screenshotUrl: 'https://github.com/steepheno/portfolio/blob/main/public/images/dorolaw/dorolaw.png?raw=true',
       githubUrl: 'https://github.com/steepheno/dorolaw',
     },
     {
@@ -59,7 +59,7 @@ export const mockPortfolio: Portfolio = {
         '팀원의 Wails 최적화로 앱 빌드 사이즈 400MB → 60MB (85% 절감)',
         '실시간 빌드 로그 스트리밍 UI 구현',
       ],
-      screenshotUrl: img('devpilot-cicd', 1200, 800),
+      screenshotUrl: 'https://github.com/steepheno/portfolio/blob/main/public/images/devpilot/devpilot.png?raw=true',
       githubUrl: 'https://github.com/steepheno/devpilot',
     },
     {
@@ -78,7 +78,7 @@ export const mockPortfolio: Portfolio = {
         'TanStack Query 캐시 정책 설계로 불필요한 리페치 최소화',
         'Tiptap 리치 텍스트 에디터 렌더링 성능 최적화 (re-render 0회)',
       ],
-      screenshotUrl: img('cna-shop', 1200, 800),
+      screenshotUrl: 'https://github.com/steepheno/portfolio/blob/main/public/images/cna/cna.png?raw=true',
       githubUrl: 'https://github.com/steepheno/choice-and-appear',
     },
     {
@@ -97,7 +97,7 @@ export const mockPortfolio: Portfolio = {
         '프로젝트 상세 페이지 진입 후 뒤로가기 시 스크롤 위치 복원',
         'CSS columns를 활용한 이력서 페이지 masonry 레이아웃',
       ],
-      screenshotUrl: img('portfolio-site', 1200, 800),
+      screenshotUrl: 'https://github.com/steepheno/portfolio/blob/main/public/images/portfolio.png?raw=true',
       githubUrl: 'https://github.com/steepheno/portfolio',
       liveUrl: 'https://jsundev.vercel.app',
     },
