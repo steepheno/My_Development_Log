@@ -1,5 +1,5 @@
+import style from './BookSpecCard.module.scss';
 import type { BookSpecCatalogItem } from '@/types/bookSpec';
-import styles from './BookSpecCard.module.scss';
 
 /**
  * 판형 카탈로그 카드
@@ -34,8 +34,8 @@ export function BookSpecCard({ spec }: BookSpecCardProps) {
   const y = (SVG_BOX_SIZE - bookHeightPx) / 2;
 
   return (
-    <article className={styles.card}>
-      <div className={styles.visual}>
+    <article className={style.card}>
+      <div className={style.visual}>
         <svg
           width={SVG_BOX_SIZE}
           height={SVG_BOX_SIZE}
@@ -50,7 +50,7 @@ export function BookSpecCard({ spec }: BookSpecCardProps) {
             width={bookWidthPx}
             height={bookHeightPx}
             rx={2}
-            className={styles.book}
+            className={style.book}
           />
           {/* 제본부 (왼쪽 세로선) */}
           <line
@@ -58,41 +58,41 @@ export function BookSpecCard({ spec }: BookSpecCardProps) {
             y1={y + 4}
             x2={x + 4}
             y2={y + bookHeightPx - 4}
-            className={styles.spine}
+            className={style.spine}
           />
         </svg>
       </div>
 
-      <header className={styles.header}>
-        <h2 className={styles.name}>{spec.name}</h2>
-        <p className={styles.sizeLabel}>{spec.sizeLabel}</p>
+      <header className={style.header}>
+        <h2 className={style.name}>{spec.name}</h2>
+        <p className={style.sizeLabel}>{spec.sizeLabel}</p>
       </header>
 
-      <dl className={styles.specs}>
-        <div className={styles.specRow}>
-          <dt className={styles.specLabel}>표지</dt>
-          <dd className={styles.specValue}>{spec.coverType}</dd>
+      <dl className={style.specs}>
+        <div className={style.specRow}>
+          <dt className={style.specLabel}>표지</dt>
+          <dd className={style.specValue}>{spec.coverType}</dd>
         </div>
-        <div className={styles.specRow}>
-          <dt className={styles.specLabel}>제본</dt>
-          <dd className={styles.specValue}>{spec.bindingType}</dd>
+        <div className={style.specRow}>
+          <dt className={style.specLabel}>제본</dt>
+          <dd className={style.specValue}>{spec.bindingType}</dd>
         </div>
-        <div className={styles.specRow}>
-          <dt className={styles.specLabel}>코팅</dt>
-          <dd className={styles.specValue}>{spec.lamination}</dd>
+        <div className={style.specRow}>
+          <dt className={style.specLabel}>코팅</dt>
+          <dd className={style.specValue}>{spec.lamination}</dd>
         </div>
-        <div className={styles.specRow}>
-          <dt className={styles.specLabel}>내지 용지</dt>
-          <dd className={styles.specValue}>{spec.innerPaper}</dd>
+        <div className={style.specRow}>
+          <dt className={style.specLabel}>내지 용지</dt>
+          <dd className={style.specValue}>{spec.innerPaper}</dd>
         </div>
-        <div className={styles.specRow}>
-          <dt className={styles.specLabel}>페이지</dt>
-          <dd className={styles.specValue}>{spec.pageLabel}</dd>
+        <div className={style.specRow}>
+          <dt className={style.specLabel}>페이지</dt>
+          <dd className={style.specValue}>{spec.pageLabel}</dd>
         </div>
       </dl>
 
-      <footer className={styles.footer}>
-        <code className={styles.uid}>{spec.bookSpecUid}</code>
+      <footer className={style.footer}>
+        <code className={style.uid}>{spec.bookSpecUid}</code>
       </footer>
     </article>
   );

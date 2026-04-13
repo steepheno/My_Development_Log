@@ -1,58 +1,93 @@
+import style from './CatalogGallery.module.scss';
 import type { ReactNode } from 'react';
-import styles from './CatalogGallery.module.scss';
 
 /**
  * <카탈로그 갤러리 공용 컨테이너>
+ *  - 판형, 템플릿 데이터를 렌더링하는 공용 컨테이너.
+ *  - 헤더(title + description) + 로딩/빈 상태 처리만 책임지고,
+ *  - 내부 콘텐츠는 2가지 모드로 위임받음.
  *
- * 판형/템플릿 등 카탈로그 성격의 데이터를 그리드로 렌더링하는 컨테이너.
- * 실제 카드의 모양은 renderCard prop으로 위임받음.
+ *  1) 평탄한 그리드 모드: items + renderCard + getKey
+ *    → 단일 배열을 단순 그리드로 표시 (판형)
  *
- * 제네릭 T로 어떤 데이터 타입에든 대응 가능.
- * 데이터 fetching은 호출하는 페이지에서 수행.
+ *  2) 커스텀 콘텐츠 모드: renderContent
+ *    → 중첩 그룹(테마 → 판형 → 카드) 구조를 자체 레이아웃으로 표시 (템플릿)
+ *
+ * "한 번에 하나의 모드만 사용"하며, 둘 다 넘기면 renderContent가 우선.
  */
 
-interface CatalogGalleryProps<T> {
+interface CatalogGalleryBaseProps {
   title: string;
   description?: string;
-  items: T[];
   isLoading: boolean;
-  renderCard: (item: T) => ReactNode;  // 각 항목을 어떻게 렌더링할 지 위임받는 렌더 함수
-  getKey: (item: T) => string;         // items에서 React key로 사용할 값 추출하는 함수
-  emptyMessage?: string;               // 빈 상태일 때 렌더링 될 메시지
+  isEmpty?: boolean;     // 커스텀 모드에서 빈 상태 판단을 외부에서 하기 위함 (컴포넌트가 내부 내용을 모름)
+  emptyMessage?: string;
 }
 
-export function CatalogGallery<T>({
-  title,
-  description,
-  items,
-  isLoading,
-  renderCard,
-  getKey,
-  emptyMessage = '표시할 항목이 없습니다.',
-}: CatalogGalleryProps<T>) {
+interface CatalogGalleryGridProps<T> extends CatalogGalleryBaseProps {
+  items: T[];
+  renderCard: (item: T) => ReactNode;
+  getKey: (item: T) => string;
+  renderContent?: never;
+}
+
+interface CatalogGalleryCustomProps extends CatalogGalleryBaseProps {
+  renderContent: () => ReactNode;
+  items?: never;
+  renderCard?: never;
+  getKey?: never;
+}
+
+// 재사용 컴포넌트가 2개 (판형, 템플릿)
+// 서로 다른 모드끼리 섞이지 않도록 컴파일 시점에 방지 (Discriminated union Type)
+type CatalogGalleryProps<T> =
+  | CatalogGalleryGridProps<T>
+  | CatalogGalleryCustomProps;
+
+export function CatalogGallery<T>(props: CatalogGalleryProps<T>) {
+  const {
+    title,
+    description,
+    isLoading,
+    emptyMessage = '표시할 항목이 없습니다.',
+  } = props;
+
+  // 빈 상태 판정: 그리드 모드는 items.length, 커스텀 모드는 isEmpty prop
+  const isEmpty =
+    'renderContent' in props && props.renderContent !== undefined
+      ? props.isEmpty === true
+      : (props as CatalogGalleryGridProps<T>).items.length === 0;
+
   return (
-    <section className={styles.gallery}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>{title}</h1>
-        {description && <p className={styles.description}>{description}</p>}
+    <section className={style.gallery}>
+      <header className={style.header}>
+        <h1 className={style.title}>{title}</h1>
+        {description && <p className={style.description}>{description}</p>}
       </header>
 
-      <div className={styles.body}>
+      <div className={style.body}>
         {isLoading && (
-          <div className={styles.state} role="status" aria-live="polite">
+          <div className={style.state} role="status" aria-live="polite">
             불러오는 중...
           </div>
         )}
 
-        {!isLoading && items.length === 0 && (
-          <div className={styles.state}>{emptyMessage}</div>
+        {!isLoading && isEmpty && (
+          <div className={style.state}>{emptyMessage}</div>
         )}
 
-        {!isLoading && items.length > 0 && (
-          <ul className={styles.grid}>
-            {items.map((item) => (
-              <li key={getKey(item)} className={styles.gridItem}>
-                {renderCard(item)}
+        {!isLoading && !isEmpty && 'renderContent' in props && props.renderContent && (
+          props.renderContent()
+        )}
+
+        {!isLoading && !isEmpty && !('renderContent' in props && props.renderContent) && (
+          <ul className={style.grid}>
+            {(props as CatalogGalleryGridProps<T>).items.map((item) => (
+              <li
+                key={(props as CatalogGalleryGridProps<T>).getKey(item)}
+                className={style.gridItem}
+              >
+                {(props as CatalogGalleryGridProps<T>).renderCard(item)}
               </li>
             ))}
           </ul>
