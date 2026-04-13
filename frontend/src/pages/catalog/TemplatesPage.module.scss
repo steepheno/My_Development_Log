@@ -9,3 +9,9 @@
   border: none;
   border-top: 1px solid #e5e7eb; // gray-200
 }
+
+.dotNavWrapper {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}

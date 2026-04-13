@@ -1,4 +1,4 @@
-import styles from './TemplatesPage.module.scss';
+import style from './TemplatesPage.module.scss';
 import type { TemplateCatalog } from '@/types/template';
 import { useEffect, useState } from 'react';
 
@@ -18,9 +18,9 @@ import { SectionDotNav } from '@/components/sectionDotNav/SectionDotNav';
  */
 
 const THEME_ID_MAP: Record<string, string> = {
-  '구글포토북A': 'theme-google-photobook-a',
-  '알림장A': 'theme-notice-a',
-  '일기장A': 'theme-diary-a',
+  구글포토북A: 'theme-google-photobook-a',
+  알림장A: 'theme-notice-a',
+  일기장A: 'theme-diary-a',
 };
 
 const DOT_NAV_SECTIONS = [
@@ -77,7 +77,7 @@ export function TemplatesPage() {
         isLoading={isLoading}
         isEmpty={isEmpty}
         renderContent={() => (
-          <div className={styles.content}>
+          <div className={style.content}>
             {/* 정규 테마 8개 */}
             {catalog!.regularThemes.map(group => (
               <TemplateThemeSection
@@ -91,7 +91,7 @@ export function TemplatesPage() {
             {catalog!.utilityGroup && (
               <>
                 <hr
-                  className={styles.divider}
+                  className={style.divider}
                   aria-hidden="true"
                 />
                 <TemplateThemeSection
@@ -103,7 +103,10 @@ export function TemplatesPage() {
           </div>
         )}
       />
-      <SectionDotNav sections={DOT_NAV_SECTIONS} />
+
+      <div className={style.dotNavWrapper}>
+        <SectionDotNav sections={DOT_NAV_SECTIONS} />
+      </div>
       <ScrollMove />
     </>
   );
