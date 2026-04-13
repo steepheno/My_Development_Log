@@ -21,6 +21,7 @@
 
 .subtitle {
   font-size: 18px;
+  font-weight: 600;
   color: $color-text-primary;
   margin: 0;
 }
@@ -83,7 +84,7 @@
 }
 
 .sectionTitle {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 600;
   color: $color-text-primary;
   margin: 0 0 16px;
@@ -95,7 +96,7 @@
 .count {
   font-size: 14px;
   font-weight: 400;
-  color: $color-text-tertiary;
+  color: $color-text-primary;
 }
 
 /* ===== 표지 카드 ===== */
@@ -212,22 +213,21 @@
   width: 100%;
   border-radius: 8px;
   overflow: hidden;
-  background-color: $color-bg-tertiary;
-  margin-bottom: 16px;
-  max-height: 300px;
+  margin-bottom: 20px;
 }
 
 .screenshot {
   width: 100%;
   height: auto;
+  max-height: 400px;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .oneLiner {
-  font-size: 15px;
+  font-size: 18px;
   color: $color-text-primary;
-  font-weight: 500;
+  font-weight: 700;
   margin: 0 0 12px;
   line-height: 1.5;
 }
