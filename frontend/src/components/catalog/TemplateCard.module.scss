@@ -11,7 +11,13 @@
   transition: border-color 0.15s ease;
 
   &:hover {
-    border-color: $color-border-strong;
+    border: 1px solid $color-accent;
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 3px rgba(232, 90, 93, 0.12);
+    transition:
+      border-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
 }
 
