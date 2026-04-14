@@ -25,6 +25,6 @@ export function toCatalogItem(raw: any): BookSpecCatalogItem | null {
 }
 
 // 타입 설정 시작
-export function toCatalog(rawList: any[]): BookSpecCatalogItem[] {``
+export function toCatalog(rawList: any[]): BookSpecCatalogItem[] {
   return rawList.map(toCatalogItem).filter((item): item is BookSpecCatalogItem => item !== null);
 }
