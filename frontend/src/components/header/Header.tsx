@@ -13,11 +13,14 @@ export function Header() {
   return (
     <header className={style.header}>
       <div className={style.inner}>
-        <Link
-          to="/"
-          className={style.logo}
-        >
-          개발일지
+        <Link to="/">
+          <div className={style.logoSection}>
+            <img
+              src="/images/logo.jpg"
+              alt="로고"
+            />
+            <p>나의 개발일지</p>
+          </div>
         </Link>
         <nav className={style.nav}>
           {NAV_ITEMS.map(item => {
