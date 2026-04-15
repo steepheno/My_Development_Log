@@ -13,6 +13,8 @@ export const BOOK_COVER_TEMPLATE_UID = '2pmWxMXzE8Ko';
 export interface CreateBookRequest {
   bookSpecUid: string;
   title: string;
+
+  /* 긴급 수정 - Sweetbook API가 허용하는 타입으로 수정 (26.04.15 18:00 API 응답 검증으로 확인) */
   creationType?: 'EBOOK_SYNC' | 'PDF_UPLOAD';
 }
 
