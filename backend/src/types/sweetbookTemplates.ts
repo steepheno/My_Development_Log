@@ -13,7 +13,7 @@ export const BOOK_COVER_TEMPLATE_UID = '2pmWxMXzE8Ko';
 export interface CreateBookRequest {
   bookSpecUid: string;
   title: string;
-  creationType?: 'NORMAL' | 'TEST';
+  creationType?: 'EBOOK_SYNC' | 'PDF_UPLOAD';
 }
 
 /* POST /api/books — 책 생성 응답 (BFF가 SDK 결과를 그대로 중계) */

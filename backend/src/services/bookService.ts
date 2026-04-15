@@ -18,7 +18,7 @@ export async function createBookFromPortfolio(
     const book = await sweetbook.books.create({
       bookSpecUid: 'PHOTOBOOK_A5_SC',
       title: `${portfolio.cover.developerName}의 개발일지`,
-      creationType: 'TEST',
+      creationType: 'EBOOK_SYNC',
     });
 
     bookUid = book.bookUid || book.uid;
